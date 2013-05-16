@@ -31,17 +31,35 @@ class inittab (
           fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports versions 5 and 6.")
         }
       }
+    }
+    'Debian': {
+      case $::lsbdistid {
+        'Ubuntu': {
+          include inittab::ubuntu
+        }
+        default: {
+          fail("lsbdistid is <${::lsbdistid}> and inittab supports Ubuntu.")
+        }
+      }
 
-      file { 'inittab':
+      file { 'rc-sysinit.override':
         ensure => file,
-        path   => '/etc/inittab',
+        path   => '/etc/init/rc-sysinit.override',
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module only support RedHat.")
+      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu.")
     }
+  }
+
+  file { 'inittab':
+    ensure => file,
+    path   => '/etc/inittab',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
   }
 }
