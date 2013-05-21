@@ -11,6 +11,7 @@ Tested on
 
 * EL 5
 * EL 6
+* Ubuntu 12.04 LTS (Precise Pangolin)
 
 ===
 
