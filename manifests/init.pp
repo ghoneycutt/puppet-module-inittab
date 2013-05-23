@@ -15,8 +15,7 @@ class inittab (
 ) {
 
   # validate default_runlevel
-  # GH: TODO - change regex to match any single character of 0123456Ss
-  validate_re($default_runlevel, '^[0-9]$', "default_runlevel <${default_runlevel}> does not match regex")
+  validate_re($default_runlevel, '^[0-6sS]$', "default_runlevel <${default_runlevel}> does not match regex")
 
   case $::osfamily {
     'redhat': {
