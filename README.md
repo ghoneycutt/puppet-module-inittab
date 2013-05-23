@@ -18,7 +18,7 @@ Tested on
 # Parameters #
 default_runlevel
 ----------------
-String for default runlevel
+String for default runlevel. Valid values are 0-6, S, and s.
 
-- *Default*: 3
+- *Default*: '3'
 
