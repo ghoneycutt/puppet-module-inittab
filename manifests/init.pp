@@ -31,6 +31,13 @@ class inittab (
         }
       }
     }
+    'suse': {
+      case $::lsmajdistrelease {
+        '11': {
+          include inittab::suse
+        }
+      }
+    }
     'Debian': {
       case $::lsbdistid {
         'Ubuntu': {
