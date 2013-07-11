@@ -53,6 +53,19 @@ describe 'inittab' do
     }
   end
 
+  describe 'Suse family systems version 11.*' do
+    let :facts do
+      {:osfamily          => 'suse',
+      :lsbmajdistrelease  => '11'
+      }
+    end
+
+    it {
+      should include_class('inittab::suse')
+    }
+  end
+
+
   describe 'Debian family systems' do
     let :facts do
       {:osfamily  => 'debian',
