@@ -49,8 +49,18 @@ class inittab (
         mode   => '0644',
       }
     }
+    'Solaris': {
+      case $::kernelrelease {
+        '5.10': {
+          include inittab::sol10
+        }
+        default: {
+          fail("kernelrelease is <${::kernelrelease}> and inittab supports Solaris 5.10.")
+        }
+      }
+    }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu.")
+      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu and Solaris.")
     }
   }
 
