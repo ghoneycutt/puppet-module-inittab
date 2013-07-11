@@ -95,6 +95,18 @@ describe 'inittab' do
     }
   end
 
+ describe 'Solaris family systems version 5.10' do
+    let :facts do
+      {:osfamily      => 'Solaris',
+      :kernelrelease  => '5.10'
+      }
+    end
+
+    it {
+      should include_class('inittab::sol10')
+    }
+  end
+
   describe 'Unsupported systems' do
     let :facts do
       {:osfamily  => 'UNSUPPORTED'}
