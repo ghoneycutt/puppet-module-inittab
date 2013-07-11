@@ -97,7 +97,7 @@ describe 'inittab' do
 
  describe 'Solaris family systems version 5.10' do
     let :facts do
-      {:osfamily          => 'Solaris',
+      {:osfamily      => 'Solaris',
       :kernelrelease  => '5.10'
       }
     end

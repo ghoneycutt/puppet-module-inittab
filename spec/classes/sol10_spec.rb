@@ -3,7 +3,7 @@ describe 'inittab::sol10' do
 
   describe 'Sol10 systems' do
     let :facts do
-      {:osfamily          => 'Solaris',
+      {:osfamily      => 'Solaris',
        :kernelrelease => '5.10'
       }
     end

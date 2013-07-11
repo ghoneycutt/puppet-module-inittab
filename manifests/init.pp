@@ -60,7 +60,8 @@ class inittab (
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu and Solaris.")
+      fail("osfamily is <${::osfamily}> and inittab module supports osfamily RedHat, Ubuntu and Solaris.")
+
     }
   }
 
