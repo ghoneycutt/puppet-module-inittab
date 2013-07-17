@@ -1,13 +1,13 @@
 #This file is being maintained by Puppet.
-# DO NOT EDIT
-#
-# Template for SLED10
-#
-# inittab       This file describes how the INIT process should set up
-#               the system in a certain run-level.
-#
-# Author:       johnie.zhang, <johnie.zhang@ericsson.com>
-#
+ DO NOT EDIT
+# #
+# # Template for SLED10
+# #
+# # inittab       This file describes how the INIT process should set up
+# #               the system in a certain run-level.
+# #
+# # Author:       johnie.zhang, <johnie.zhang@ericsson.com>
+# #
 
 # /etc/init.d/rc takes care of runlevel handling
 #
@@ -19,11 +19,11 @@
 # runlevel 5  is  Full multiuser with network and xdm
 # runlevel 6  is  System reboot (Do not use this for initdefault!)
 #
-#id:5:initdefault:
 id:<%= scope.lookupvar('inittab::default_runlevel') %>:initdefault:
 
 # First script to be executed, if not booting in emergency (-b) mode
 si::bootwait:/etc/init.d/boot
+
 
 l0:0:wait:/etc/init.d/rc 0
 l1:1:wait:/etc/init.d/rc 1
@@ -68,7 +68,7 @@ sh:12345:powerfail:/sbin/shutdown -h now THE POWER IS FAILING
 #cons:12345:respawn:/sbin/smart_agetty -L 38400 console
 
 #
-  Note: Do not use tty7 in runlevel 3, this virtual line
+#  Note: Do not use tty7 in runlevel 3, this virtual line
 #  is occupied by the programm xdm.
 #
 
@@ -89,3 +89,5 @@ sh:12345:powerfail:/sbin/shutdown -h now THE POWER IS FAILING
 # I7:35:respawn:/usr/sbin/vboxgetty -d /dev/ttyI7
 
 # end of /etc/inittab
+cons:12345:respawn:/sbin/smart_agetty -L 42 console
+# x0:12345:respawn:/sbin/agetty -L 9600 xvc0 xterm

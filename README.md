@@ -14,9 +14,9 @@ Tested on
 
 * EL 5
 * EL 6
+* SuSE 10
+* SuSE 11
 * Ubuntu 12.04 LTS (Precise Pangolin)
-* SLES 10
-* SLED 10
 
 ===
 

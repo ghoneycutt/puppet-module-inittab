@@ -1,26 +1,13 @@
+This file is being maintained by Puppet.
+# DO NOT EDIT
 #
-# /etc/inittab
+# Template for SLED10
 #
-# Copyright (c) 1996-2002 SuSE Linux AG, Nuernberg, Germany.  All rights reserved.
+# inittab       This file describes how the INIT process should set up
+#               the system in a certain run-level.
 #
-# Author: Florian La Roche, 1996
-# Please send feedback to http://www.suse.de/feedback
+# Author:       johnie.zhang, <johnie.zhang@ericsson.com>
 #
-# This is the main configuration file of /sbin/init, which
-# is executed by the kernel on startup. It describes what
-# scripts are used for the different run-levels.
-#
-# All scripts for runlevel changes are in /etc/init.d/.
-#
-# This file may be modified by SuSEconfig unless CHECK_INITTAB
-# in /etc/sysconfig/suseconfig is set to "no"
-#
-
-# The default runlevel is defined here
-id:3:initdefault:
-
-# First script to be executed, if not booting in emergency (-b) mode
-si::bootwait:/etc/init.d/boot
 
 # /etc/init.d/rc takes care of runlevel handling
 #
@@ -32,6 +19,11 @@ si::bootwait:/etc/init.d/boot
 # runlevel 5  is  Full multiuser with network and xdm
 # runlevel 6  is  System reboot (Do not use this for initdefault!)
 #
+id:<%= scope.lookupvar('inittab::default_runlevel') %>:initdefault:
+
+# First script to be executed, if not booting in emergency (-b) mode
+si::bootwait:/etc/init.d/boot
+
 l0:0:wait:/etc/init.d/rc 0
 l1:1:wait:/etc/init.d/rc 1
 l2:2:wait:/etc/init.d/rc 2

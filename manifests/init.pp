@@ -40,25 +40,6 @@ class inittab (
           fail("lsbdistid is <${::lsbdistid}> and inittab supports Ubuntu.")
         }
       }
-      
-    'Suse': {
-      case $::lsbdistrelease{
-        '10':{
-          case $::lsbdistdescription{
-            'SUSE Linux Enterprise Server 10 (x86_64)': {
-              include inittab::sles10
-            }
-            'SUSE Linux Enterprise Desktop 10 (x86_64)': {
-              include inittab::sled10
-            }
-          }
-        }
-        default: {
-          fail("lsbdistid is <${::lsbdistid}> and inittab supports SuSE 10.")
-        }
-      }
-    }
-
 
       file { 'rc-sysinit.override':
         ensure => file,
@@ -66,6 +47,39 @@ class inittab (
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
+      }
+    }
+    'Suse': {
+      case $::operatingsystem{
+        'SLED': {
+          case $::lsbdistrelease {
+            '10': {
+              include inittab::sled10
+            }
+            '11': {
+              include inittab::sled11
+            }
+            default: {
+              fail("lsbdistrelease is <${::lsbdistrelease}> and inittab supports SLED 10&11.")
+            }
+          }
+        }
+        'SLES': {
+          case $::lsbdistrelease {
+            '10': {
+              include inittab::sles10
+            }
+            '11': {
+              include inittab::sles11
+            }
+            default: {
+              fail("lsbdistrelease is <${::lsbdistrelease}> and inittab supports SLES 10&11.")
+            }
+          }
+        }
+        default: {
+          fail("operatingsystem is <${::operatingsystem}> and inittab supports SLES and SLED.")
+        }
       }
     }
     default: {
