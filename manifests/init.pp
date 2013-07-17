@@ -40,6 +40,21 @@ class inittab (
           fail("lsbdistid is <${::lsbdistid}> and inittab supports Ubuntu.")
         }
       }
+      
+    'Suse': {
+      case $::lsbdistid {
+        'SUSE LINUX': {
+          case $::lsbdistrelease
+            '10':{
+              include inittab::sles10
+            }
+            default: {
+              fail("lsbdistid is <${::lsbdistid}> and inittab supports sles.")
+            }
+          }
+      }
+    }
+
 
       file { 'rc-sysinit.override':
         ensure => file,
