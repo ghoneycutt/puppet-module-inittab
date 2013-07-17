@@ -50,12 +50,12 @@ class inittab (
       }
     }
     'Solaris': {
-      case $::lsbmajdistrelease {
-        '5': {
+      case $::operatingsystemrelease {
+        '5.11': {
           include inittab::sol11
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports versions 11.")
+          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports versions 11.")
         }
       }
     }
