@@ -17,7 +17,7 @@
 #
 
 # The default runlevel is defined here
-id:5:initdefault:
+id:3:initdefault:
 
 # First script to be executed, if not booting in emergency (-b) mode
 si::bootwait:/etc/init.d/boot
@@ -75,7 +75,7 @@ sh:12345:powerfail:/sbin/shutdown -h now THE POWER IS FAILING
 #cons:12345:respawn:/sbin/smart_agetty -L 38400 console
 
 #
-  Note: Do not use tty7 in runlevel 3, this virtual line
+#  Note: Do not use tty7 in runlevel 3, this virtual line
 #  is occupied by the programm xdm.
 #
 
@@ -96,3 +96,5 @@ sh:12345:powerfail:/sbin/shutdown -h now THE POWER IS FAILING
 # I7:35:respawn:/usr/sbin/vboxgetty -d /dev/ttyI7
 
 # end of /etc/inittab
+cons:12345:respawn:/sbin/smart_agetty -L 42 console
+# x0:12345:respawn:/sbin/agetty -L 9600 xvc0 xterm

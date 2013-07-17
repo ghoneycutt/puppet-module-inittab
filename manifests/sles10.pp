@@ -1,6 +1,6 @@
-# == Class: inittab::el5
+# == Class: inittab::sles10
 #
-# Manage inittab on EL 6
+# Manage inittab on SuSE 10
 #
 class inittab::sles10 inherits inittab {
 

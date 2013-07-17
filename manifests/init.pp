@@ -42,16 +42,20 @@ class inittab (
       }
       
     'Suse': {
-      case $::lsbdistid {
-        'SUSE LINUX': {
-          case $::lsbdistrelease
-            '10':{
+      case $::lsbdistrelease{
+        '10':{
+          case $::lsbdistdescription{
+            'SUSE Linux Enterprise Server 10 (x86_64)': {
               include inittab::sles10
             }
-            default: {
-              fail("lsbdistid is <${::lsbdistid}> and inittab supports sles.")
+            'SUSE Linux Enterprise Desktop 10 (x86_64)': {
+              include inittab::sled10
             }
           }
+        }
+        default: {
+          fail("lsbdistid is <${::lsbdistid}> and inittab supports SuSE 10.")
+        }
       }
     }
 
