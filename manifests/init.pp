@@ -49,8 +49,18 @@ class inittab (
         mode   => '0644',
       }
     }
+    'Solaris': {
+      case $::lsbmajdistrelease {
+        '5': {
+          include inittab::sol11
+        }
+        default: {
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports versions 11.")
+        }
+      }
+    }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu.")
+      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu and Solaris.")
     }
   }
 
