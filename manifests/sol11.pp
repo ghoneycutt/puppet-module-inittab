@@ -38,7 +38,7 @@
 class inittab::sol11 inherits inittab {
 
   File ['inittab'] {
-    content => template('inittab/el5.erb'),
+    content => template('inittab/sol11.erb'),
   }
 
 }
