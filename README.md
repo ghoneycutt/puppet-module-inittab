@@ -1,3 +1,4 @@
+#hahaha
 puppet-module-inittab
 =====================
 
