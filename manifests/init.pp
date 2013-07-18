@@ -50,12 +50,15 @@ class inittab (
       }
     }
     'Solaris': {
-      case $::operatingsystemrelease {
+      case $::kernelrelease {
+        '5.10': {
+          include inittab::sol10
+        }
         '5.11': {
           include inittab::sol11
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports version 11.")
+          fail("kernelrelease is <${::kernelrelease}> and inittab supports versions 5.10 and 5.11.")
         }
       }
     }
