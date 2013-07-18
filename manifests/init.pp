@@ -54,14 +54,26 @@ class inittab (
         '5.10': {
           include inittab::sol10
         }
+        '5.11': {
+          include inittab::sol11
+        }
         default: {
-          fail("kernelrelease is <${::kernelrelease}> and inittab supports Solaris 5.10.")
+          fail("kernelrelease is <${::kernelrelease}> and inittab supports versions 5.10 and 5.11.")
+        }
+      }
+    }
+    'Suse':{
+      case $::lsbmajdistrelease {
+        '11': {
+          include inittab::suse11
+        }
+        default: {
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 11.")
         }
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports osfamily RedHat, Ubuntu and Solaris.")
-
+      fail("osfamily is <${::osfamily}> and inittab module supports RedHat, Ubuntu, Suse, and Solaris.")
     }
   }
 
