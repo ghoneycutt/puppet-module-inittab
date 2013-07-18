@@ -1,6 +1,9 @@
 puppet-module-inittab
 =====================
 
+ .. teaching git ..
+
+
 [![Build Status](
 https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
 
