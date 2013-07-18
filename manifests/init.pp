@@ -59,8 +59,18 @@ class inittab (
         }
       }
     }
+    'Suse':{
+      case $::lsbmajdistrelease {
+        '11': {
+          include inittab::suse11
+        }
+        default: {
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 11.")
+        }
+      }
+    }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports RedHat and Ubuntu and Solaris.")
+      fail("osfamily is <${::osfamily}> and inittab module supports RedHat, Ubuntu, Suse, and Solaris.")
     }
   }
 

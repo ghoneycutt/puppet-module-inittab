@@ -101,7 +101,7 @@ describe 'inittab' do
     end
 
     it {
-      expect { subject }.to raise_error(/osfamily is <UNSUPPORTED> and inittab module supports RedHat and Ubuntu./)
+      expect { subject }.to raise_error(/osfamily is <UNSUPPORTED> and inittab module supports RedHat, Ubuntu, Suse, and Solaris./)
     }
   end
 

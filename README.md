@@ -14,6 +14,8 @@ Tested on
 
 * EL 5
 * EL 6
+* Solaris 11
+* Suse 11
 * Ubuntu 12.04 LTS (Precise Pangolin)
 
 ===
