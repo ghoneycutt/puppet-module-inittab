@@ -1,6 +1,7 @@
 # This file is being maintained by Puppet.
-# Template for Solaris 11
 # DO NOT EDIT
+#
+# Template for Solaris 11
 #
 # Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
@@ -15,14 +16,14 @@
 # For modifying parameters passed to ttymon, use svccfg(1m) to modify
 # the SMF repository. For example:
 #
-#	# svccfg
-#	svc:> select system/console-login
-#	svc:/system/console-login> setprop ttymon/terminal_type = "xterm"
-#	svc:/system/console-login> exit
+#       # svccfg
+#       svc:> select system/console-login
+#       svc:/system/console-login> setprop ttymon/terminal_type = "xterm"
+#       svc:/system/console-login> exit
 #
-#ident	"@(#)inittab	1.41	04/12/14 SMI"
+#ident  "@(#)inittab    1.41    04/12/14 SMI"
 ap::sysinit:/sbin/autopush -f /etc/iu.ap
 sp::sysinit:/sbin/soconfig -f /etc/sock2path
-smf::sysinit:/lib/svc/bin/svc.startd	>/dev/msglog 2<>/dev/msglog </dev/console
+smf::sysinit:/lib/svc/bin/svc.startd    >/dev/msglog 2<>/dev/msglog </dev/console
 p3:s1234:powerfail:/usr/sbin/shutdown -y -i5 -g0 >/dev/msglog 2<>/dev/msglog
 pt:s1234:powerfail:/lib/svc/method/installupdates lock

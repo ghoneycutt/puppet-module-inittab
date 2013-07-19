@@ -3,8 +3,9 @@ describe 'inittab::sol11' do
 
   describe 'Sol11 systems' do
     let :facts do
-      {:osfamily      => 'Solaris',
-       :kernelrelease => '5.11'
+      {
+        :osfamily      => 'Solaris',
+        :kernelrelease => '5.11',
       }
     end
 
@@ -16,5 +17,4 @@ describe 'inittab::sol11' do
       should contain_file('inittab').with_content(/^# Template for Solaris 11$/)
     }
   end
-
 end
