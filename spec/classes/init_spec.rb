@@ -107,6 +107,18 @@ describe 'inittab' do
     }
   end
 
+ describe 'Solaris family systems version 5.11' do
+    let :facts do
+      {:osfamily      => 'Solaris',
+      :kernelrelease  => '5.11'
+      }
+    end
+
+    it {
+      should include_class('inittab::sol11')
+    }
+  end
+
   describe 'Unsupported systems' do
     let :facts do
       {:osfamily  => 'UNSUPPORTED'}
@@ -116,6 +128,8 @@ describe 'inittab' do
       expect { subject }.to raise_error(/osfamily is <UNSUPPORTED> and inittab module supports RedHat, Ubuntu, Suse, and Solaris./)
     }
   end
+
+
 
   describe 'inittab should be managed for supported OS' do
     let :facts do
