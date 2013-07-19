@@ -18,6 +18,8 @@ Tested on
 * Solaris 11
 * Suse 11
 * Ubuntu 12.04 LTS (Precise Pangolin)
+* SLES 10
+* SLED 10
 
 ===
 
