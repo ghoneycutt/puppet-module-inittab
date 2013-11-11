@@ -8,7 +8,12 @@ class inittab::ubuntu inherits inittab {
     ensure  => absent,
   }
 
-  File ['rc-sysinit.override'] {
+  file { 'rc-sysinit.override':
+    ensure  => file,
+    path    => '/etc/init/rc-sysinit.override',
     content => template('inittab/ubuntu.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
   }
 }
