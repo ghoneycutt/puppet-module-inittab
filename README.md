@@ -1,5 +1,5 @@
-puppet-module-inittab
-=====================
+# puppet-module-inittab
+===
 
 [![Build Status](
 https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
@@ -8,10 +8,11 @@ Puppet module to manage inittab
 
 ===
 
-# Compatability #
+# Compatability
 
-Tested on
+Compatible with Puppet v3 on the following platforms.
 
+* Debian 6 (squeeze)
 * EL 5
 * EL 6
 * Solaris 10
@@ -21,10 +22,10 @@ Tested on
 
 ===
 
-# Parameters #
+# Parameters
+
 default_runlevel
 ----------------
 String for default runlevel. Valid values are 0-6, S, and s.
 
-- *Default*: '3'
-
+- *Default*: based on OS family. (runlevel 3 except Debian 6, which uses runlevel 2)

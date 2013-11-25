@@ -11,20 +11,19 @@
 # - *Default*: 3
 #
 class inittab (
-  $default_runlevel = '3',
+  $default_runlevel = 'USE_DEFAULTS',
 ) {
 
-  # validate default_runlevel
-  validate_re($default_runlevel, '^[0-6sS]$', "default_runlevel <${default_runlevel}> does not match regex")
-
   case $::osfamily {
-    'redhat': {
+    'Redhat': {
       case $::lsbmajdistrelease {
         '5': {
-          include inittab::el5
+          $default_default_runlevel = 3
+          $template                 = 'inittab/el5.erb'
         }
         '6': {
-          include inittab::el6
+          $default_default_runlevel = 3
+          $template                 = 'inittab/el6.erb'
         }
         default: {
           fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports versions 5 and 6.")
@@ -32,30 +31,33 @@ class inittab (
       }
     }
     'Debian': {
-      case $::lsbdistid {
-        'Ubuntu': {
-          include inittab::ubuntu
-        }
-        default: {
-          fail("lsbdistid is <${::lsbdistid}> and inittab supports Ubuntu.")
-        }
-      }
+      if $::lsbdistid == 'Ubuntu' {
 
-      file { 'rc-sysinit.override':
-        ensure => file,
-        path   => '/etc/init/rc-sysinit.override',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0644',
+        $default_default_runlevel = 3
+        $template                 = undef
+        include inittab::ubuntu
+
+      } else {
+        case $::lsbmajdistrelease {
+          '6': {
+            $default_default_runlevel = 2
+            $template                 = 'inittab/debian6.erb'
+          }
+          default: {
+            fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 6.")
+          }
+        }
       }
     }
     'Solaris': {
       case $::kernelrelease {
         '5.10': {
-          include inittab::sol10
+          $default_default_runlevel = 3
+          $template                 = 'inittab/sol10.erb'
         }
         '5.11': {
-          include inittab::sol11
+          $default_default_runlevel = 3
+          $template                 = 'inittab/sol11.erb'
         }
         default: {
           fail("kernelrelease is <${::kernelrelease}> and inittab supports versions 5.10 and 5.11.")
@@ -65,7 +67,8 @@ class inittab (
     'Suse':{
       case $::lsbmajdistrelease {
         '11': {
-          include inittab::suse11
+          $default_default_runlevel = 3
+          $template                 = 'inittab/suse11.erb'
         }
         default: {
           fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 11.")
@@ -73,15 +76,31 @@ class inittab (
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports RedHat, Ubuntu, Suse, and Solaris.")
+      fail("osfamily is <${::osfamily}> and inittab module supports Debian, RedHat, Ubuntu, Suse, and Solaris.")
     }
   }
 
+  if $default_runlevel == 'USE_DEFAULTS' {
+    $default_runlevel_real = $default_default_runlevel
+  } else {
+    $default_runlevel_real = $default_runlevel
+  }
+
+  # validate default_runlevel_real
+  validate_re($default_runlevel_real, '^[0-6sS]$', "default_runlevel <${default_runlevel_real}> does not match regex")
+
+  if $template {
+    $content = template($template)
+  } else {
+    $content = undef
+  }
+
   file { 'inittab':
-    ensure => file,
-    path   => '/etc/inittab',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
+    ensure  => file,
+    path    => '/etc/inittab',
+    content => $content,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
   }
 }

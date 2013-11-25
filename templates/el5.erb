@@ -19,7 +19,7 @@
 #   5 - X11
 #   6 - reboot (Do NOT set initdefault to this)
 #
-id:<%= scope.lookupvar('inittab::default_runlevel') %>:initdefault:
+id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
 
 # System initialization.
 si::sysinit:/etc/rc.d/rc.sysinit
