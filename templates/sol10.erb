@@ -24,4 +24,5 @@
 #ident  "@(#)inittab    1.41    04/12/14 SMI"
 ap::sysinit:/sbin/autopush -f /etc/iu.ap
 sp::sysinit:/sbin/soconfig -f /etc/sock2path
-smf::sysinit:/lib/svc/bin/svc.startd    >/dev/msglog 2/dev/msglog /dev/msglog 2/dev/msglog
+smf::sysinit:/lib/svc/bin/svc.startd    >/dev/msglog 2<>/dev/msglog </dev/console
+p<%= default_runlevel_real %>:s1234:powerfail:/usr/sbin/shutdown -y -i5 -g0 >/dev/msglog 2<>/dev/msglog
