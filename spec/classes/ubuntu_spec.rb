@@ -8,7 +8,7 @@ describe 'inittab::ubuntu' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({

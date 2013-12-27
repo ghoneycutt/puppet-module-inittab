@@ -19,7 +19,7 @@ describe 'inittab' do
 
     it 'should fail' do
       expect {
-        should include_class('inittab')
+        should contain_class('inittab')
       }.to raise_error(Puppet::Error,/default_runlevel <10> does not match regex/)
     end
   end
@@ -33,7 +33,7 @@ describe 'inittab' do
 
     it 'should fail' do
       expect {
-        should include_class('inittab')
+        should contain_class('inittab')
       }.to raise_error(Puppet::Error,/lsbmajdistrelease is <0> and inittab supports versions 5 and 6./)
     end
   end
@@ -45,7 +45,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab::ubuntu') }
+    it { should contain_class('inittab::ubuntu') }
   end
 
   describe 'Debian family systems of unsupported version' do
@@ -58,7 +58,7 @@ describe 'inittab' do
 
     it 'should fail' do
       expect {
-        should include_class('inittab')
+        should contain_class('inittab')
       }.to raise_error(Puppet::Error,/lsbmajdistrelease is <23> and inittab supports version 6./)
     end
   end
@@ -68,7 +68,7 @@ describe 'inittab' do
 
     it 'should fail' do
       expect {
-        should include_class('inittab')
+        should contain_class('inittab')
       }.to raise_error(Puppet::Error,/osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse, and Solaris./)
     end
   end
@@ -81,7 +81,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it { should_not contain_file('rc-sysinit.override')  }
 
@@ -105,7 +105,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({
@@ -129,7 +129,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({
@@ -153,7 +153,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({
@@ -175,7 +175,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({
@@ -197,7 +197,7 @@ describe 'inittab' do
       }
     end
 
-    it { should include_class('inittab') }
+    it { should contain_class('inittab') }
 
     it {
       should contain_file('inittab').with({
