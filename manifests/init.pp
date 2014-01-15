@@ -66,12 +66,16 @@ class inittab (
     }
     'Suse':{
       case $::lsbmajdistrelease {
+        '10': {
+          $default_default_runlevel = 3
+          $template                 = 'inittab/suse10.erb'
+        }
         '11': {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse11.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 11.")
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 10,11.")
         }
       }
     }

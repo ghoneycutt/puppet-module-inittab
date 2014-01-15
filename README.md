@@ -17,6 +17,7 @@ Compatible with Puppet v3 on the following platforms.
 * EL 6
 * Solaris 10
 * Solaris 11
+* Suse 10
 * Suse 11
 * Ubuntu 12.04 LTS (Precise Pangolin)
 
