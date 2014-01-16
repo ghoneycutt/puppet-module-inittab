@@ -75,7 +75,7 @@ class inittab (
           $template                 = 'inittab/suse11.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 11.")
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 10,11.")
         }
       }
     }
