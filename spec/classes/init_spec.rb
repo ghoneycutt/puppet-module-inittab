@@ -213,4 +213,28 @@ describe 'inittab' do
 
     it { should contain_file('inittab').with_content(/SuSE Linux/) }
   end
+
+  describe 'SuSE 10 systems' do
+    let :facts do
+      { :osfamily          => 'Suse',
+        :lsbmajdistrelease => '10',
+      }
+    end
+
+    it { should contain_class('inittab') }
+
+    it {
+      should contain_file('inittab').with({
+      :ensure  => 'file',
+      :path    => '/etc/inittab',
+      :owner   => 'root',
+      :group   => 'root',
+      :mode    => '0644',
+    })
+    }
+
+    it { should contain_file('inittab').with_content(/^id:3:initdefault:$/) }
+
+    it { should contain_file('inittab').with_content(/SuSE Linux/) }
+  end
 end
