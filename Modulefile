@@ -1,5 +1,5 @@
 name    'ghoneycutt-inittab'
-version '1.0.1'
+version '1.1.0'
 source 'git://github.com/ghoneycutt/puppet-module-inittab.git'
 author 'ghoneycutt'
 license 'Apache License, Version 2.0'
