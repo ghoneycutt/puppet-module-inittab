@@ -15,7 +15,7 @@ class inittab (
 ) {
 
   case $::osfamily {
-    'Redhat': {
+    'RedHat': {
       case $::lsbmajdistrelease {
         '5': {
           $default_default_runlevel = 3
@@ -26,7 +26,7 @@ class inittab (
           $template                 = 'inittab/el6.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports versions 5 and 6.")
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports RedHat versions 5 and 6.")
         }
       }
     }
@@ -44,7 +44,7 @@ class inittab (
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 6.")
+            fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports Debian version 6.")
           }
         }
       }
@@ -60,7 +60,7 @@ class inittab (
           $template                 = 'inittab/sol11.erb'
         }
         default: {
-          fail("kernelrelease is <${::kernelrelease}> and inittab supports versions 5.10 and 5.11.")
+          fail("kernelrelease is <${::kernelrelease}> and inittab supports Solaris versions 5.10 and 5.11.")
         }
       }
     }
@@ -75,7 +75,7 @@ class inittab (
           $template                 = 'inittab/suse11.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports version 10,11.")
+          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports Suse versions 10 and 11.")
         }
       }
     }

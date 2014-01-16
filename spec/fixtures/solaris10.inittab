@@ -1,0 +1,28 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# Template for Solaris 10
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# The /etc/inittab file controls the configuration of init(1M); for more
+# information refer to init(1M) and inittab(4).  It is no longer
+# necessary to edit inittab(4) directly; administrators should use the
+# Solaris Service Management Facility (SMF) to define services instead.
+# Refer to smf(5) and the System Administration Guide for more
+# information on SMF.
+#
+# For modifying parameters passed to ttymon, use svccfg(1m) to modify
+# the SMF repository. For example:
+#
+#       # svccfg
+#       svc:> select system/console-login
+#       svc:/system/console-login> setprop ttymon/terminal_type = "xterm"
+#       svc:/system/console-login> exit
+#
+#ident  "@(#)inittab    1.41    04/12/14 SMI"
+ap::sysinit:/sbin/autopush -f /etc/iu.ap
+sp::sysinit:/sbin/soconfig -f /etc/sock2path
+smf::sysinit:/lib/svc/bin/svc.startd    >/dev/msglog 2<>/dev/msglog </dev/console
+p3:s1234:powerfail:/usr/sbin/shutdown -y -i5 -g0 >/dev/msglog 2<>/dev/msglog

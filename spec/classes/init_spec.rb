@@ -1,15 +1,17 @@
 require 'spec_helper'
 describe 'inittab' do
 
-  describe 'Parameter default_runlevel ' do
+  describe 'with parameter default_runlevel' do
     %w{ 0 1 2 3 4 5 6 s S }.each do |runlevel|
-      it "should not fail on runlevel #{runlevel}" do
-        expect { runlevel }.to_not raise_error
+      context "set to #{runlevel}" do
+        it "should not fail on runlevel #{runlevel}" do
+          expect { runlevel }.to_not raise_error
+        end
       end
     end
   end
 
-  describe 'default_runlevel set to invalid value' do
+  describe 'with default_runlevel set to invalid value' do
     let(:params) { { :default_runlevel => '10' } }
     let :facts do
       { :osfamily          => 'RedHat',
@@ -20,21 +22,48 @@ describe 'inittab' do
     it 'should fail' do
       expect {
         should contain_class('inittab')
-      }.to raise_error(Puppet::Error,/default_runlevel <10> does not match regex/)
+      }.to raise_error(Puppet::Error,/^default_runlevel <10> does not match regex/)
     end
   end
 
-  describe 'EL family systems of unsupported version' do
-    let :facts do
-      { :osfamily          => 'RedHat',
-        :lsbmajdistrelease => '0',
-      }
+  describe 'with unsupported' do
+    context 'version of osfamily RedHat' do
+      let :facts do
+        { :osfamily          => 'RedHat',
+          :lsbmajdistrelease => '0',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error,/^lsbmajdistrelease is <0> and inittab supports RedHat versions 5 and 6./)
+      end
     end
 
-    it 'should fail' do
-      expect {
-        should contain_class('inittab')
-      }.to raise_error(Puppet::Error,/lsbmajdistrelease is <0> and inittab supports versions 5 and 6./)
+    context 'version of osfamily Debian' do
+      let :facts do
+        { :osfamily          => 'Debian',
+          :lsbdistid         => 'NotUbuntu',
+          :lsbmajdistrelease => '23',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error,/lsbmajdistrelease is <23> and inittab supports Debian version 6./)
+      end
+    end
+
+    context 'osfamily' do
+      let(:facts) { { :osfamily => 'UNSUPPORTED' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error,/osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse, and Solaris./)
+      end
     end
   end
 
@@ -48,193 +77,71 @@ describe 'inittab' do
     it { should contain_class('inittab::ubuntu') }
   end
 
-  describe 'Debian family systems of unsupported version' do
-    let :facts do
+  platforms = {
+    'debian6' =>
       { :osfamily          => 'Debian',
-        :lsbdistid         => 'NotUbuntu',
-        :lsbmajdistrelease => '23',
-      }
-    end
-
-    it 'should fail' do
-      expect {
-        should contain_class('inittab')
-      }.to raise_error(Puppet::Error,/lsbmajdistrelease is <23> and inittab supports version 6./)
-    end
-  end
-
-  describe 'Unsupported osfamily' do
-    let(:facts) { { :osfamily => 'UNSUPPORTED' } }
-
-    it 'should fail' do
-      expect {
-        should contain_class('inittab')
-      }.to raise_error(Puppet::Error,/osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse, and Solaris./)
-    end
-  end
-
-  describe 'Debian 6 (squeeze) systems' do
-    let :facts do
-      { :osfamily          => 'Debian',
-        :lsbdistid         => 'Debian',
+        :release           => '6',
         :lsbmajdistrelease => '6',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it { should_not contain_file('rc-sysinit.override')  }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^id:2:initdefault:$/) }
-  end
-
-  describe 'EL5 systems' do
-    let :facts do
+      },
+    'el5' =>
       { :osfamily          => 'RedHat',
+        :release           => '5',
         :lsbmajdistrelease => '5',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^id:3:initdefault:$/) }
-
-    it { should contain_file('inittab').with_content(/^# Template for EL5$/) }
-  end
-
-  describe 'EL6 systems' do
-    let :facts do
+      },
+    'el6' =>
       { :osfamily          => 'RedHat',
+        :release           => '6',
         :lsbmajdistrelease => '6',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^id:3:initdefault:$/) }
-
-    it { should contain_file('inittab').with_content(/^# Template for EL6$/) }
-  end
-
-  describe 'Solaris 10 systems' do
-    let :facts do
+      },
+    'solaris10' =>
       { :osfamily      => 'Solaris',
+        :release       => '10',
         :kernelrelease => '5.10',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^# Template for Solaris 10$/) }
-  end
-
-  describe 'Solaris 11 systems' do
-    let :facts do
+      },
+    'solaris11' =>
       { :osfamily      => 'Solaris',
+        :release       => '11',
         :kernelrelease => '5.11',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^# Template for Solaris 11$/) }
-  end
-
-  describe 'SuSE 11 systems' do
-    let :facts do
+      },
+    'suse10' =>
       { :osfamily          => 'Suse',
-        :lsbmajdistrelease => '11',
-      }
-    end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-        :ensure  => 'file',
-        :path    => '/etc/inittab',
-        :owner   => 'root',
-        :group   => 'root',
-        :mode    => '0644',
-      })
-    }
-
-    it { should contain_file('inittab').with_content(/^id:3:initdefault:$/) }
-
-    it { should contain_file('inittab').with_content(/SuSE Linux/) }
-  end
-
-  describe 'SuSE 10 systems' do
-    let :facts do
-      { :osfamily          => 'Suse',
+        :release           => '10',
         :lsbmajdistrelease => '10',
-      }
+      },
+    'suse11' =>
+      { :osfamily          => 'Suse',
+        :release           => '11',
+        :lsbmajdistrelease => '11',
+      },
+  }
+
+  describe 'with default values for parameters on' do
+    platforms.sort.each do |k,v|
+      inittab_fixture = File.read(fixtures("#{k}.inittab"))
+      context "#{v[:osfamily]} #{v[:release]}" do
+        let :facts do
+          { :osfamily          => v[:osfamily],
+            :lsbmajdistrelease => v[:lsbmajdistrelease],
+            :kernelrelease     => v[:kernelrelease],
+          }
+        end
+
+        it { should contain_class('inittab') }
+
+        it { should_not contain_file('rc-sysinit.override')  }
+
+        it {
+          should contain_file('inittab').with({
+            :ensure  => 'file',
+            :path    => '/etc/inittab',
+            :owner   => 'root',
+            :group   => 'root',
+            :mode    => '0644',
+          })
+        }
+
+        it { should contain_file('inittab').with_content(inittab_fixture) }
+      end
     end
-
-    it { should contain_class('inittab') }
-
-    it {
-      should contain_file('inittab').with({
-      :ensure  => 'file',
-      :path    => '/etc/inittab',
-      :owner   => 'root',
-      :group   => 'root',
-      :mode    => '0644',
-    })
-    }
-
-    it { should contain_file('inittab').with_content(/^id:3:initdefault:$/) }
-
-    it { should contain_file('inittab').with_content(/SuSE Linux/) }
   end
 end
