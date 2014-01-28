@@ -14,8 +14,8 @@ describe 'inittab' do
   describe 'with default_runlevel set to invalid value' do
     let(:params) { { :default_runlevel => '10' } }
     let :facts do
-      { :osfamily          => 'RedHat',
-        :lsbmajdistrelease => '6',
+      { :osfamily                   => 'RedHat',
+        :operatingsystemmajrelease  => '6',
       }
     end
 
@@ -29,30 +29,30 @@ describe 'inittab' do
   describe 'with unsupported' do
     context 'version of osfamily RedHat' do
       let :facts do
-        { :osfamily          => 'RedHat',
-          :lsbmajdistrelease => '0',
+        { :osfamily                   => 'RedHat',
+          :operatingsystemmajrelease  => '0',
         }
       end
 
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/^lsbmajdistrelease is <0> and inittab supports RedHat versions 5 and 6./)
+        }.to raise_error(Puppet::Error,/^operatingsystemmajrelease is <0> and inittab supports RedHat versions 5 and 6./)
       end
     end
 
     context 'version of osfamily Debian' do
       let :facts do
-        { :osfamily          => 'Debian',
-          :lsbdistid         => 'NotUbuntu',
-          :lsbmajdistrelease => '23',
+        { :osfamily                   => 'Debian',
+          :operatingsystem            => 'NotUbuntu',
+          :operatingsystemmajrelease  => '23',
         }
       end
 
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/lsbmajdistrelease is <23> and inittab supports Debian version 6./)
+        }.to raise_error(Puppet::Error,/operatingsystemmajrelease is <23> and inittab supports Debian version 6./)
       end
     end
 
@@ -70,7 +70,7 @@ describe 'inittab' do
   describe 'Ubuntu systems of the Debian family' do
     let :facts do
       { :osfamily  => 'Debian',
-        :lsbdistid => 'Ubuntu',
+        :operatingsystem => 'Ubuntu',
       }
     end
 
@@ -79,19 +79,19 @@ describe 'inittab' do
 
   platforms = {
     'debian6' =>
-      { :osfamily          => 'Debian',
-        :release           => '6',
-        :lsbmajdistrelease => '6',
+      { :osfamily                   => 'Debian',
+        :release                    => '6',
+        :operatingsystemmajrelease  => '6',
       },
     'el5' =>
-      { :osfamily          => 'RedHat',
-        :release           => '5',
-        :lsbmajdistrelease => '5',
+      { :osfamily                   => 'RedHat',
+        :release                    => '5',
+        :operatingsystemmajrelease  => '5',
       },
     'el6' =>
-      { :osfamily          => 'RedHat',
-        :release           => '6',
-        :lsbmajdistrelease => '6',
+      { :osfamily                   => 'RedHat',
+        :release                    => '6',
+        :operatingsystemmajrelease  => '6',
       },
     'solaris10' =>
       { :osfamily      => 'Solaris',
@@ -104,14 +104,14 @@ describe 'inittab' do
         :kernelrelease => '5.11',
       },
     'suse10' =>
-      { :osfamily          => 'Suse',
-        :release           => '10',
-        :lsbmajdistrelease => '10',
+      { :osfamily                   => 'Suse',
+        :release                    => '10',
+        :operatingsystemmajrelease  => '10',
       },
     'suse11' =>
-      { :osfamily          => 'Suse',
-        :release           => '11',
-        :lsbmajdistrelease => '11',
+      { :osfamily                   => 'Suse',
+        :release                    => '11',
+        :operatingsystemmajrelease  => '11',
       },
   }
 
@@ -120,9 +120,9 @@ describe 'inittab' do
       inittab_fixture = File.read(fixtures("#{k}.inittab"))
       context "#{v[:osfamily]} #{v[:release]}" do
         let :facts do
-          { :osfamily          => v[:osfamily],
-            :lsbmajdistrelease => v[:lsbmajdistrelease],
-            :kernelrelease     => v[:kernelrelease],
+          { :osfamily                   => v[:osfamily],
+            :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
+            :kernelrelease              => v[:kernelrelease],
           }
         end
 

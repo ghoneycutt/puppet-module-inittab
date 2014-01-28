@@ -16,7 +16,7 @@ class inittab (
 
   case $::osfamily {
     'RedHat': {
-      case $::lsbmajdistrelease {
+      case $::operatingsystemmajrelease {
         '5': {
           $default_default_runlevel = 3
           $template                 = 'inittab/el5.erb'
@@ -26,25 +26,25 @@ class inittab (
           $template                 = 'inittab/el6.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports RedHat versions 5 and 6.")
+          fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports RedHat versions 5 and 6.")
         }
       }
     }
     'Debian': {
-      if $::lsbdistid == 'Ubuntu' {
+      if $::operatingsystem == 'Ubuntu' {
 
         $default_default_runlevel = 3
         $template                 = undef
         include inittab::ubuntu
 
       } else {
-        case $::lsbmajdistrelease {
+        case $::operatingsystemmajrelease {
           '6': {
             $default_default_runlevel = 2
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports Debian version 6.")
+            fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Debian version 6.")
           }
         }
       }
@@ -65,7 +65,7 @@ class inittab (
       }
     }
     'Suse':{
-      case $::lsbmajdistrelease {
+      case $::operatingsystemmajrelease {
         '10': {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse10.erb'
@@ -75,7 +75,7 @@ class inittab (
           $template                 = 'inittab/suse11.erb'
         }
         default: {
-          fail("lsbmajdistrelease is <${::lsbmajdistrelease}> and inittab supports Suse versions 10 and 11.")
+          fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Suse versions 10 and 11.")
         }
       }
     }
