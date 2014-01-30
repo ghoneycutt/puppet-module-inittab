@@ -4,7 +4,7 @@ describe 'inittab::ubuntu' do
   describe 'Ubuntu systems' do
     let :facts do
       { :osfamily  => 'Debian',
-        :lsbdistid => 'Ubuntu',
+        :operatingsystem => 'Ubuntu',
       }
     end
 
