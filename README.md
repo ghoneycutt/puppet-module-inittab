@@ -10,7 +10,9 @@ Puppet module to manage inittab
 
 # Compatability
 
-Compatible with Puppet v3 on the following platforms.
+#### Requires Puppet v3 and facter 1.7.0
+
+Compatible with the following platforms.
 
 * Debian 6 (squeeze)
 * EL 5
