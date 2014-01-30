@@ -10,7 +10,7 @@ Puppet module to manage inittab
 
 # Compatability
 
-#### Requires Puppet v3 and facter 1.7.0
+#### Requires Puppet v3 and facter 1.7.0+
 
 Compatible with the following platforms.
 
