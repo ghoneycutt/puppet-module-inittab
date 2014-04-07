@@ -67,15 +67,30 @@ describe 'inittab' do
     end
   end
 
-  describe 'Ubuntu systems of the Debian family' do
+  describe 'with default values for parameters on Ubuntu' do
+    inittab_fixture = File.read(fixtures("ubuntu.rc-sysinit.override"))
     let :facts do
-      { :osfamily  => 'Debian',
+      { :osfamily        => 'Debian',
         :operatingsystem => 'Ubuntu',
       }
     end
 
-    it { should contain_class('inittab::ubuntu') }
-  end
+    it { should contain_class('inittab') }
+
+    it { should_not contain_file('inittab')  }
+
+    it {
+      should contain_file('rc-sysinit.override').with({
+        :ensure  => 'file',
+        :path    => '/etc/init/rc-sysinit.override',
+        :owner   => 'root',
+        :group   => 'root',
+        :mode    => '0644',
+        })
+    }
+
+    it { should contain_file('rc-sysinit.override').with_content(inittab_fixture) }
+end
 
   platforms = {
     'debian6' =>
