@@ -35,7 +35,6 @@ class inittab (
 
         $default_default_runlevel = 3
         $template                 = undef
-        include inittab::ubuntu
 
       } else {
         case $::operatingsystemmajrelease {
@@ -99,12 +98,23 @@ class inittab (
     $content = undef
   }
 
-  file { 'inittab':
-    ensure  => file,
-    path    => '/etc/inittab',
-    content => $content,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+  if $::osfamily == 'Debian' and $::operatingsystem == 'Ubuntu' {
+    file { 'rc-sysinit.override':
+      ensure  => file,
+      path    => '/etc/init/rc-sysinit.override',
+      content => template('inittab/ubuntu.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
+  } else {
+    file { 'inittab':
+      ensure  => file,
+      path    => '/etc/inittab',
+      content => $content,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   }
 }
