@@ -20,9 +20,9 @@ class inittab (
         '5': {
           $default_default_runlevel = 3
           $template                 = $::virtual ? {
-				xenu    => 'inittab/el5.xenu.erb',
-				default => 'inittab/el5.erb',
-			}
+            xenu    => 'inittab/el5.xenu.erb',
+            default => 'inittab/el5.erb',
+          }
         }
         '6': {
           $default_default_runlevel = 3
