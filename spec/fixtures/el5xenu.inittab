@@ -19,7 +19,7 @@
 #   5 - X11
 #   6 - reboot (Do NOT set initdefault to this)
 #
-id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
+id:3:initdefault:
 
 # System initialization.
 si::sysinit:/etc/rc.d/rc.sysinit
@@ -45,19 +45,8 @@ pf::powerfail:/sbin/shutdown -f -h +2 "Power Failure; System Shutting Down"
 pr:12345:powerokwait:/sbin/shutdown -c "Power Restored; Shutdown Cancelled"
 
 
-<% if @virtual != 'xenu' -%>
-# Run gettys in standard runlevels
-1:2345:respawn:/sbin/mingetty tty1
-2:2345:respawn:/sbin/mingetty tty2
-3:2345:respawn:/sbin/mingetty tty3
-4:2345:respawn:/sbin/mingetty tty4
-5:2345:respawn:/sbin/mingetty tty5
-6:2345:respawn:/sbin/mingetty tty6
-<% end -%>
-<% if @virtual == 'xenu' -%>
 # Xen Console
 co:2345:respawn:/sbin/agetty xvc0 9600 vt100-nav
-<% end -%>
 
 # Run xdm in runlevel 5
 x:5:respawn:/etc/X11/prefdm -nodaemon
