@@ -45,6 +45,7 @@ pf::powerfail:/sbin/shutdown -f -h +2 "Power Failure; System Shutting Down"
 pr:12345:powerokwait:/sbin/shutdown -c "Power Restored; Shutdown Cancelled"
 
 
+<% if @virtual != 'xenu' -%>
 # Run gettys in standard runlevels
 1:2345:respawn:/sbin/mingetty tty1
 2:2345:respawn:/sbin/mingetty tty2
@@ -52,6 +53,11 @@ pr:12345:powerokwait:/sbin/shutdown -c "Power Restored; Shutdown Cancelled"
 4:2345:respawn:/sbin/mingetty tty4
 5:2345:respawn:/sbin/mingetty tty5
 6:2345:respawn:/sbin/mingetty tty6
+<% end -%>
+<% if @virtual == 'xenu' -%>
+# Xen Console
+co:2345:respawn:/sbin/agetty xvc0 9600 vt100-nav
+<% end -%>
 
 # Run xdm in runlevel 5
 x:5:respawn:/etc/X11/prefdm -nodaemon
