@@ -28,3 +28,5 @@ doc/
 metadata.json
 coverage/
 spec/fixtures/modules/*
+
+Gemfile.lock
