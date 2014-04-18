@@ -88,6 +88,12 @@ describe 'inittab' do
         :release                    => '5',
         :operatingsystemmajrelease  => '5',
       },
+    'el5xenu' =>
+      { :osfamily                   => 'RedHat',
+        :release                    => '5',
+        :operatingsystemmajrelease  => '5',
+        :virtual                    => 'xenu',
+      },
     'el6' =>
       { :osfamily                   => 'RedHat',
         :release                    => '6',
@@ -123,6 +129,7 @@ describe 'inittab' do
           { :osfamily                   => v[:osfamily],
             :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
             :kernelrelease              => v[:kernelrelease],
+            :virtual                    => v[:virtual],
           }
         end
 
