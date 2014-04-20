@@ -1,0 +1,118 @@
+{
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.2.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "facter",
+      "version_requirement": ">= 1.7.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11"
+      ]
+    },
+    {
+      "operatingsystem": "SLES"
+    },
+    {
+      "operatingsystem": "SLED"
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04"
+      ]
+    }
+  ],
+  "name": "ghoneycutt-inittab",
+  "version": "2.1.2",
+  "source": "git://github.com/ghoneycutt/puppet-module-inittab.git",
+  "author": "ghoneycutt",
+  "license": "Apache License, Version 2.0",
+  "summary": "Manages inittab",
+  "description": "Manages inittab",
+  "project_page": "https://github.com/ghoneycutt/puppet-module-inittab",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "CHANGELOG": "580881f54817bd9b4e0c9d3f1951618a",
+    "Gemfile": "6992d521994d948eb6e48acd733a07bf",
+    "Gemfile.lock": "20c2610e7684d99c05ad8294e4668ec3",
+    "LICENSE": "567e6cc3941d464d60c74d1f4abd5f46",
+    "Modulefile": "646489666fa91c8e9e2b88fd60de1d24",
+    "README.md": "a958e6bf45c9997a43654912cc2795b1",
+    "Rakefile": "8ff6a0f7db638421d1742c5d365d0266",
+    "manifests/init.pp": "c422784bea5cec6d5bc0bd750eae29ea",
+    "spec/classes/init_spec.rb": "2625f700a2a968f5dda0456246948d2e",
+    "spec/fixtures/debian6.inittab": "19a78b94bf4d832b0000f2498c6200e1",
+    "spec/fixtures/el5.inittab": "679435d40f1664d1e5dd1f0775c75ce0",
+    "spec/fixtures/el5xenu.inittab": "43bfb08ca0a5605518cd8190dfb63328",
+    "spec/fixtures/el6.inittab": "9d84dd2fec0d905d935a7c5c743a14b0",
+    "spec/fixtures/solaris10.inittab": "71becf9d95c14314234801dddbf8d2c2",
+    "spec/fixtures/solaris11.inittab": "492bd9526c9060cb46febea7664f840d",
+    "spec/fixtures/suse10.inittab": "20628b0b060d4f562e1ed93cc1038373",
+    "spec/fixtures/suse11.inittab": "e7715bccdd7f56918c7242c5d355cc2c",
+    "spec/fixtures/ubuntu.rc-sysinit.override": "fbf563f68d1815981ec5dd7acf706c53",
+    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "templates/debian6.erb": "07fae038d08eadeb3b2b14d675715b30",
+    "templates/el5.erb": "02802215cb0aba2ff755c529a70070c4",
+    "templates/el6.erb": "81f60cf50c691013228bd203659cf7ea",
+    "templates/sol10.erb": "fc63f43e174a5976f4c7a8103ae0ad3e",
+    "templates/sol11.erb": "492bd9526c9060cb46febea7664f840d",
+    "templates/suse10.erb": "c806e77136dc50b4c6df515b35cf883e",
+    "templates/suse11.erb": "8a9ccb7b315d491e3181268e817199a9",
+    "templates/ubuntu.erb": "254563cbd9fe7558880d21905c9795b2",
+    "tests/init.pp": "53a9ff6e153a0bdc60e47305712e23dd"
+  }
+}
