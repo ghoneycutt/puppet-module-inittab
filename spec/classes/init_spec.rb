@@ -112,12 +112,12 @@ describe 'inittab' do
     'suse10' =>
       { :osfamily                   => 'Suse',
         :release                    => '10',
-        :operatingsystemmajrelease  => '10',
+        :operatingsystemrelease     => '10.4',
       },
     'suse11' =>
       { :osfamily                   => 'Suse',
         :release                    => '11',
-        :operatingsystemmajrelease  => '11',
+        :operatingsystemrelease     => '11.3',
       },
   }
 
@@ -127,6 +127,7 @@ describe 'inittab' do
       context "#{v[:osfamily]} #{v[:release]}" do
         let :facts do
           { :osfamily                   => v[:osfamily],
+            :operatingsystemrelease     => v[:operatingsystemrelease],
             :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
             :kernelrelease              => v[:kernelrelease],
             :virtual                    => v[:virtual],

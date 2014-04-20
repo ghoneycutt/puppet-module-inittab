@@ -65,17 +65,17 @@ class inittab (
       }
     }
     'Suse':{
-      case $::operatingsystemmajrelease {
-        '10': {
+      case $::operatingsystemrelease {
+        /^10/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse10.erb'
         }
-        '11': {
+        /^11/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse11.erb'
         }
         default: {
-          fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Suse versions 10 and 11.")
+          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports Suse versions 10 and 11.")
         }
       }
     }
