@@ -1,14 +1,6 @@
-# ## Class: inittab ##
+# == Class: inittab
 #
 # Manage inittab
-#
-# ### Parameters ###
-#
-# default_runlevel
-# ----------------
-# String for default runlevel
-#
-# - *Default*: 3
 #
 class inittab (
   $default_runlevel = 'USE_DEFAULTS',
@@ -34,8 +26,7 @@ class inittab (
       if $::operatingsystem == 'Ubuntu' {
 
         $default_default_runlevel = 3
-        $template                 = undef
-        include inittab::ubuntu
+        $template                 = 'inittab/ubuntu.erb'
 
       } else {
         case $::operatingsystemmajrelease {
@@ -93,18 +84,23 @@ class inittab (
   # validate default_runlevel_real
   validate_re($default_runlevel_real, '^[0-6sS]$', "default_runlevel <${default_runlevel_real}> does not match regex")
 
-  if $template {
-    $content = template($template)
+  if $::operatingsystem == 'Ubuntu' {
+    file { 'rc-sysinit.override':
+      ensure  => file,
+      path    => '/etc/init/rc-sysinit.override',
+      content => template($template),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   } else {
-    $content = undef
-  }
-
-  file { 'inittab':
-    ensure  => file,
-    path    => '/etc/inittab',
-    content => $content,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+    file { 'inittab':
+      ensure  => file,
+      path    => '/etc/inittab',
+      content => template($template),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   }
 }

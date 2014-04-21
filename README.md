@@ -1,8 +1,7 @@
 # puppet-module-inittab
 ===
 
-[![Build Status](
-https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
+[![Build Status](https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
 
 Puppet module to manage inittab
 
