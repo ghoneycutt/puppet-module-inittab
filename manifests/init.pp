@@ -8,17 +8,17 @@ class inittab (
 
   case $::osfamily {
     'RedHat': {
-      case $::operatingsystemmajrelease {
-        '5': {
+      case $::operatingsystemrelease {
+        /^5/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/el5.erb'
         }
-        '6': {
+        /^6/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/el6.erb'
         }
         default: {
-          fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports RedHat versions 5 and 6.")
+          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5 and 6.")
         }
       }
     }
