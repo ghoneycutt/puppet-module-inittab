@@ -14,8 +14,8 @@ describe 'inittab' do
   describe 'with default_runlevel set to invalid value' do
     let(:params) { { :default_runlevel => '10' } }
     let :facts do
-      { :osfamily                   => 'RedHat',
-        :operatingsystemmajrelease  => '6',
+      { :osfamily               => 'RedHat',
+        :operatingsystemrelease => '6.5',
       }
     end
 
@@ -29,15 +29,15 @@ describe 'inittab' do
   describe 'with unsupported' do
     context 'version of osfamily RedHat' do
       let :facts do
-        { :osfamily                   => 'RedHat',
-          :operatingsystemmajrelease  => '0',
+        { :osfamily               => 'RedHat',
+          :operatingsystemrelease => '0',
         }
       end
 
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/^operatingsystemmajrelease is <0> and inittab supports RedHat versions 5 and 6./)
+        }.to raise_error(Puppet::Error,/^operatingsystemrelease is <0> and inittab supports RedHat versions 5 and 6./)
       end
     end
 
@@ -93,26 +93,27 @@ describe 'inittab' do
 end
 
   platforms = {
+
     'debian6' =>
       { :osfamily                   => 'Debian',
         :release                    => '6',
         :operatingsystemmajrelease  => '6',
       },
     'el5' =>
-      { :osfamily                   => 'RedHat',
-        :release                    => '5',
-        :operatingsystemmajrelease  => '5',
+      { :osfamily               => 'RedHat',
+        :release                => '5',
+        :operatingsystemrelease => '5.9',
       },
     'el5xenu' =>
-      { :osfamily                   => 'RedHat',
-        :release                    => '5',
-        :operatingsystemmajrelease  => '5',
-        :virtual                    => 'xenu',
+      { :osfamily               => 'RedHat',
+        :release                => '5',
+        :operatingsystemrelease => '5.9',
+        :virtual                => 'xenu',
       },
     'el6' =>
-      { :osfamily                   => 'RedHat',
-        :release                    => '6',
-        :operatingsystemmajrelease  => '6',
+      { :osfamily               => 'RedHat',
+        :release                => '6',
+        :operatingsystemrelease => '6.5',
       },
     'solaris10' =>
       { :osfamily      => 'Solaris',
