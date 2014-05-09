@@ -168,4 +168,91 @@ end
       end
     end
   end
+
+  describe 'ttys1 service and file for EL6' do
+    context 'with ensure_ttys1 set to present' do
+      let(:params) { { :ensure_ttys1 => 'present' } }
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '6',
+          :operatingsystemrelease => '6.5',
+        }
+      end
+
+      it {
+        should contain_file('ttys1_conf').with({
+          'ensure' => 'present',
+          'source' => 'puppet:///modules/inittab/ttyS1.conf',
+          'path'   => '/etc/init/ttyS1.conf',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+
+      it {
+        should contain_service('ttyS1').with({
+          'ensure'     => 'running',
+          'hasstatus'  => 'false',
+          'hasrestart' => 'false',
+          'start'      => '/sbin/initctl start ttyS1',
+          'stop'       => '/sbin/initctl stop ttyS1',
+          'status'     => '/sbin/initctl status ttyS1 | grep ^"ttyS1 start/running" 1>/dev/null 2>&1',
+          'require'    => 'File[ttys1_conf]',
+        })
+      }
+    end
+
+    context 'with ensure_ttys1 set to absent' do
+      let(:params) { { :ensure_ttys1 => 'absent' } }
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '6',
+          :operatingsystemrelease => '6.5',
+        }
+      end
+
+      it {
+        should contain_file('ttys1_conf').with({
+          'ensure' => 'absent',
+          'source' => 'puppet:///modules/inittab/ttyS1.conf',
+          'path'   => '/etc/init/ttyS1.conf',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0644',
+        })
+      }
+
+      it { should_not contain_service('ttyS1') }
+    end
+
+    context 'with ensure_ttys1 undefined' do
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '6',
+          :operatingsystemrelease => '6.5',
+        }
+      end
+
+      it { should_not contain_file('ttys1_conf') }
+
+      it { should_not contain_service('ttyS1') }
+    end
+
+    context 'with ensure_ttys1 set to an invalid value' do
+      let(:params) { { :ensure_ttys1 => 'invalid' } }
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '6',
+          :operatingsystemrelease => '6.5',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error,/^inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'./)
+      end
+    end
+  end
 end
