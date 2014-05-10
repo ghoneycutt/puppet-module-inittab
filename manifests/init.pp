@@ -4,7 +4,12 @@
 #
 class inittab (
   $default_runlevel = 'USE_DEFAULTS',
+  $ensure_ttys1     = undef,
 ) {
+
+  if $ensure_ttys1 {
+    validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
+  }
 
   case $::osfamily {
     'RedHat': {
@@ -16,6 +21,29 @@ class inittab (
         /^6/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/el6.erb'
+
+          if $ensure_ttys1 {
+            file { 'ttys1_conf':
+              ensure => $ensure_ttys1,
+              path   => '/etc/init/ttyS1.conf',
+              source => 'puppet:///modules/inittab/ttyS1.conf',
+              owner  => 'root',
+              group  => 'root',
+              mode   => '0644',
+            }
+          }
+
+          if $ensure_ttys1 == 'present' {
+            service { 'ttyS1':
+              ensure     => running,
+              hasstatus  => false,
+              hasrestart => false,
+              start      => '/sbin/initctl start ttyS1',
+              stop       => '/sbin/initctl stop ttyS1',
+              status     => '/sbin/initctl status ttyS1 | grep ^"ttyS1 start/running" 1>/dev/null 2>&1',
+              require    => File['ttys1_conf'],
+            }
+          }
         }
         default: {
           fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5 and 6.")

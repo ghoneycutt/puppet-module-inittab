@@ -31,3 +31,9 @@ default_runlevel
 String for default runlevel. Valid values are 0-6, S, and s.
 
 - *Default*: based on OS family. (runlevel 3 except Debian 6, which uses runlevel 2)
+
+ensure_ttys1
+------------
+Optionally manage ttyS1. This will ensure that agetty spawns a tty which is needed for serial access. Valid values are 'present' and 'absent'. With `undef` the resource is not managed. Only applies to EL 6.
+
+- *Default*: undef
