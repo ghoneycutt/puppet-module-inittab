@@ -37,3 +37,9 @@ ensure_ttys1
 Optionally manage ttyS1. This will ensure that agetty spawns a tty which is needed for serial access. Valid values are 'present' and 'absent'. With `undef` the resource is not managed. Only applies to EL 6.
 
 - *Default*: undef
+
+file_mode
+---------
+String of file mode in four digit octal notation for inittab.
+
+- *Default*: '0644'

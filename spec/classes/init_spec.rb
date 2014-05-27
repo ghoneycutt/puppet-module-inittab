@@ -26,6 +26,40 @@ describe 'inittab' do
     end
   end
 
+  describe 'with file_mode specified' do
+    context 'as a valid mode' do
+      let(:params) { { :file_mode => '0600' } }
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it {
+        should contain_file('inittab').with({
+          :ensure  => 'file',
+          :path    => '/etc/inittab',
+          :owner   => 'root',
+          :group   => 'root',
+          :mode    => '0600',
+        })
+      }
+    end
+
+    [true,'666','66666'].each do |mode|
+      context "as invalid mode #{mode}" do
+        let(:params) { { :file_mode => mode } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('inittab')
+          }.to raise_error(Puppet::Error,/^inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation./)
+        end
+      end
+    end
+  end
+
   describe 'with unsupported' do
     context 'version of osfamily RedHat' do
       let :facts do
