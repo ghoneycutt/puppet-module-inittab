@@ -5,11 +5,15 @@
 class inittab (
   $default_runlevel = 'USE_DEFAULTS',
   $ensure_ttys1     = undef,
+  $file_mode        = '0644',
 ) {
 
   if $ensure_ttys1 {
     validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
   }
+
+  validate_re($file_mode, '^[0-7]{4}$',
+    "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
 
   case $::osfamily {
     'RedHat': {
@@ -128,7 +132,7 @@ class inittab (
       content => template($template),
       owner   => 'root',
       group   => 'root',
-      mode    => '0644',
+      mode    => $file_mode,
     }
   }
 }
