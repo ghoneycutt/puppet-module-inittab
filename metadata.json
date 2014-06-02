@@ -1,4 +1,12 @@
 {
+  "name": "ghoneycutt-inittab",
+  "version": "2.4.0",
+  "author": "ghoneycutt",
+  "summary": "Manages inittab",
+  "license": "Apache License, Version 2.0",
+  "source": "git://github.com/ghoneycutt/puppet-module-inittab.git",
+  "project_page": "https://github.com/ghoneycutt/puppet-module-inittab",
+  "issues_url": "https://github.com/ghoneycutt/puppet-module-inittab/issues",
   "requirements": [
     {
       "name": "pe",
@@ -68,22 +76,9 @@
       ]
     }
   ],
-  "name": "ghoneycutt-inittab",
-  "version": "2.3.0",
-  "source": "git://github.com/ghoneycutt/puppet-module-inittab.git",
-  "author": "ghoneycutt",
-  "license": "Apache License, Version 2.0",
-  "summary": "Manages inittab",
   "description": "Manages inittab",
-  "project_page": "https://github.com/ghoneycutt/puppet-module-inittab",
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
-    }
-  ],
   "types": [
-
+  
   ],
   "checksums": {
     "CHANGELOG": "580881f54817bd9b4e0c9d3f1951618a",
@@ -115,5 +110,8 @@
     "templates/suse11.erb": "8a9ccb7b315d491e3181268e817199a9",
     "templates/ubuntu.erb": "254563cbd9fe7558880d21905c9795b2",
     "tests/init.pp": "53a9ff6e153a0bdc60e47305712e23dd"
-  }
+  },
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"}
+  ]
 }
