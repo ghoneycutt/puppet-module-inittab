@@ -43,3 +43,33 @@ file_mode
 String of file mode in four digit octal notation for inittab.
 
 - *Default*: '0644'
+
+enable_ctrlaltdel
+-----------------
+Boolean to enable control-alt-delete. Supported on Linux systems. If set to false, the command `exec logger "control-alt-delete issued"` will be triggered whenever control-alt-delete is issued.
+
+- *Default*: true
+
+ctrlaltdel_override_path
+------------------------
+String of path to control-alt-delete.override. Only used on EL 6, which is '/etc/init/control-alt-delete.override'.
+
+- *Default*: 'USE_DEFAULTS'
+
+ctrlaltdel_override_owner
+-------------------------
+String of owner for control-alt-delete.override file. Only used on EL 6.
+
+- *Default*: 'root'
+
+ctrlaltdel_override_group
+-------------------------
+String of group for control-alt-delete.override file. Only used on EL 6.
+
+- *Default*: 'root'
+
+ctrlaltdel_override_mode
+------------------------
+String of four digital octal mode of control-alt-delete.override file. Only used on EL 6.
+
+- *Default*: '0644'

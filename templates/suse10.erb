@@ -47,8 +47,10 @@ l6:6:wait:/etc/init.d/rc 6
 ls:S:wait:/etc/init.d/rc S
 ~~:S:respawn:/sbin/sulogin
 
+<% if @enable_ctrlaltdel_bool == true -%>
 # what to do when CTRL-ALT-DEL is pressed
 ca::ctrlaltdel:/sbin/shutdown -r -t 4 now
+<% end -%>
 
 # special keyboard request (Alt-UpArrow)
 # look into the kbd-0.90 docs for this
