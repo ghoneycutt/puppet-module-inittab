@@ -1,0 +1,8 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# control-alt-delete - emergency keypress handling
+
+start on control-alt-delete
+
+exec logger "control-alt-delete issued"

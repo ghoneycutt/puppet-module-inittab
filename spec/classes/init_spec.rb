@@ -60,6 +60,195 @@ describe 'inittab' do
     end
   end
 
+  describe 'with ctrlaltdel_override_path specified' do
+    context 'as a valid path' do
+      let(:params) do
+        {
+          :ctrlaltdel_override_path  => '/path/to/control-alt-delete.override',
+          :enable_ctrlaltdel         => true,
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it {
+        should contain_file('ctrlaltdel_override').with({
+          :ensure => 'file',
+          :path   => '/path/to/control-alt-delete.override',
+          :owner  => 'root',
+          :group  => 'root',
+          :mode   => '0644',
+        })
+      }
+    end
+
+    context 'as an invalid path' do
+      let(:params) do
+        {
+          :ctrlaltdel_override_path  => 'invalid/path',
+          :enable_ctrlaltdel         => true,
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+
+    context 'as an invalid type' do
+      let(:params) do
+        {
+          :ctrlaltdel_override_path  => true,
+          :enable_ctrlaltdel         => true,
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with ctrlaltdel_override_owner specified' do
+    context 'as a valid string with enable_ctrlaltdel set to true' do
+      let(:params) do
+        {
+          :ctrlaltdel_override_owner => 'gh',
+          :enable_ctrlaltdel         => true,
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it {
+        should contain_file('ctrlaltdel_override').with({
+          :ensure => 'file',
+          :path   => '/etc/init/control-alt-delete.override',
+          :owner  => 'gh',
+          :group  => 'root',
+          :mode   => '0644',
+        })
+      }
+    end
+
+    context 'as an invalid type (non-string)' do
+      let(:params) { { :ctrlaltdel_override_owner => ['invalid','type'] } }
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with ctrlaltdel_override_group specified' do
+    context 'as a valid string with enable_ctrlaltdel set to true' do
+      let(:params) do
+        {
+          :ctrlaltdel_override_group => 'gh',
+          :enable_ctrlaltdel         => true,
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it {
+        should contain_file('ctrlaltdel_override').with({
+          :ensure => 'file',
+          :path   => '/etc/init/control-alt-delete.override',
+          :owner  => 'root',
+          :group  => 'gh',
+          :mode   => '0644',
+        })
+      }
+    end
+
+    context 'as an invalid type (non-string)' do
+      let(:params) { { :ctrlaltdel_override_group => ['invalid','type'] } }
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with ctrlaltdel_override_mode specified' do
+    context 'as a valid mode' do
+      let(:params) { { :ctrlaltdel_override_mode => '0600' } }
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystemrelease => '6',
+        }
+      end
+
+      it {
+        should contain_file('ctrlaltdel_override').with({
+          :ensure => 'file',
+          :path   => '/etc/init/control-alt-delete.override',
+          :owner  => 'root',
+          :group  => 'root',
+          :mode   => '0600',
+        })
+      }
+    end
+
+    [true,'666','66666'].each do |mode|
+      context "as invalid mode #{mode}" do
+        let(:params) { { :ctrlaltdel_override_mode => mode } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('inittab')
+          }.to raise_error(Puppet::Error,/^inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation./)
+        end
+      end
+    end
+  end
+
   describe 'with unsupported' do
     context 'version of osfamily RedHat' do
       let :facts do
@@ -102,7 +291,7 @@ describe 'inittab' do
   end
 
   describe 'with default values for parameters on Ubuntu' do
-    inittab_fixture = File.read(fixtures("ubuntu.rc-sysinit.override"))
+    inittab_fixture = File.read(fixtures('ubuntu.rc-sysinit.override'))
     let :facts do
       { :osfamily        => 'Debian',
         :operatingsystem => 'Ubuntu',
@@ -124,81 +313,136 @@ describe 'inittab' do
     }
 
     it { should contain_file('rc-sysinit.override').with_content(inittab_fixture) }
+
+    it { should_not contain_file('ctrlaltdel_override') }
 end
 
   platforms = {
 
     'debian6' =>
-      { :osfamily                   => 'Debian',
-        :release                    => '6',
-        :operatingsystemmajrelease  => '6',
+      { :osfamily                    => 'Debian',
+        :release                     => '6',
+        :operatingsystemmajrelease   => '6',
+        :support_ctrlaltdel_override => 'false',
       },
     'el5' =>
-      { :osfamily               => 'RedHat',
-        :release                => '5',
-        :operatingsystemrelease => '5.9',
+      { :osfamily                    => 'RedHat',
+        :release                     => '5',
+        :operatingsystemrelease      => '5.9',
+        :support_ctrlaltdel_override => 'false',
       },
     'el5xenu' =>
-      { :osfamily               => 'RedHat',
-        :release                => '5',
-        :operatingsystemrelease => '5.9',
-        :virtual                => 'xenu',
+      { :osfamily                    => 'RedHat',
+        :release                     => '5',
+        :operatingsystemrelease      => '5.9',
+        :virtual                     => 'xenu',
+        :support_ctrlaltdel_override => 'false',
       },
     'el6' =>
-      { :osfamily               => 'RedHat',
-        :release                => '6',
-        :operatingsystemrelease => '6.5',
+      { :osfamily                    => 'RedHat',
+        :release                     => '6',
+        :operatingsystemrelease      => '6.5',
+        :support_ctrlaltdel_override => 'true',
       },
     'solaris10' =>
-      { :osfamily      => 'Solaris',
-        :release       => '10',
-        :kernelrelease => '5.10',
+      { :osfamily                    => 'Solaris',
+        :release                     => '10',
+        :kernelrelease               => '5.10',
+        :support_ctrlaltdel_override => 'false',
       },
     'solaris11' =>
-      { :osfamily      => 'Solaris',
-        :release       => '11',
-        :kernelrelease => '5.11',
+      { :osfamily                    => 'Solaris',
+        :release                     => '11',
+        :kernelrelease               => '5.11',
+        :support_ctrlaltdel_override => 'false',
       },
     'suse10' =>
-      { :osfamily                   => 'Suse',
-        :release                    => '10',
-        :operatingsystemrelease     => '10.4',
+      { :osfamily                    => 'Suse',
+        :release                     => '10',
+        :operatingsystemrelease      => '10.4',
+        :support_ctrlaltdel_override => 'false',
       },
     'suse11' =>
-      { :osfamily                   => 'Suse',
-        :release                    => '11',
-        :operatingsystemrelease     => '11.3',
+      { :osfamily                    => 'Suse',
+        :release                     => '11',
+        :operatingsystemrelease      => '11.3',
+        :support_ctrlaltdel_override => 'false',
       },
   }
 
-  describe 'with default values for parameters on' do
-    platforms.sort.each do |k,v|
-      inittab_fixture = File.read(fixtures("#{k}.inittab"))
-      context "#{v[:osfamily]} #{v[:release]}" do
-        let :facts do
-          { :osfamily                   => v[:osfamily],
-            :operatingsystemrelease     => v[:operatingsystemrelease],
-            :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
-            :kernelrelease              => v[:kernelrelease],
-            :virtual                    => v[:virtual],
-          }
+  describe 'with values for parameters left at their default values' do
+    [true,'true',false,'false'].each do |enable_ctrlaltdel_value|
+      context "except for enable_ctrlaltdel which is set to #{enable_ctrlaltdel_value}" do
+        platforms.sort.each do |k,v|
+          inittab_fixture = File.read(fixtures("#{k}.inittab"))
+          context "#{v[:osfamily]} #{v[:release]}" do
+            ctrlaltdel_override_fixture = File.read(fixtures('control-alt-delete.override'))
+            let(:params) { { :enable_ctrlaltdel => enable_ctrlaltdel_value } }
+            let :facts do
+              { :osfamily                   => v[:osfamily],
+                :operatingsystemrelease     => v[:operatingsystemrelease],
+                :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
+                :kernelrelease              => v[:kernelrelease],
+                :virtual                    => v[:virtual],
+              }
+            end
+
+            it { should compile.with_all_deps }
+
+            it { should contain_class('inittab') }
+
+            it { should_not contain_file('rc-sysinit.override')  }
+
+            it {
+              should contain_file('inittab').with({
+                :ensure  => 'file',
+                :path    => '/etc/inittab',
+                :owner   => 'root',
+                :group   => 'root',
+                :mode    => '0644',
+              })
+            }
+
+            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'true'
+              it {
+                should contain_file('ctrlaltdel_override').with({
+                  :ensure => 'file',
+                  :path   => '/etc/init/control-alt-delete.override',
+                  :owner  => 'root',
+                  :group  => 'root',
+                  :mode   => '0644',
+                })
+              }
+
+              it { should contain_file('inittab').with_content(inittab_fixture) }
+
+              it { should contain_file('ctrlaltdel_override').with_content(ctrlaltdel_override_fixture) }
+            end
+
+            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'false'
+              it {
+                should contain_file('ctrlaltdel_override').with({
+                  :ensure => 'absent',
+                  :path   => '/etc/init/control-alt-delete.override',
+                })
+              }
+
+              it { should contain_file('inittab').without_content(/^\s*ca/) }
+            end
+
+            if v[:support_ctrlaltdel_override].to_s == 'false' and enable_ctrlaltdel_value.to_s == 'true' and v[:osfamily] != 'Solaris'
+
+              it { should contain_file('inittab').with_content(inittab_fixture) }
+
+              it { should_not contain_file('ctrlaltdel_override') }
+            end
+
+            if v[:support_ctrlaltdel_override].to_s == 'false' and enable_ctrlaltdel_value.to_s == 'false'
+              it { should_not contain_file('ctrlaltdel_override') }
+              it { should contain_file('inittab').without_content(/^\s*ca/) }
+            end
+          end
         end
-
-        it { should contain_class('inittab') }
-
-        it { should_not contain_file('rc-sysinit.override')  }
-
-        it {
-          should contain_file('inittab').with({
-            :ensure  => 'file',
-            :path    => '/etc/inittab',
-            :owner   => 'root',
-            :group   => 'root',
-            :mode    => '0644',
-          })
-        }
-
-        it { should contain_file('inittab').with_content(inittab_fixture) }
       end
     end
   end
@@ -286,6 +530,37 @@ end
         expect {
           should contain_class('inittab')
         }.to raise_error(Puppet::Error,/^inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'./)
+      end
+    end
+  end
+
+  describe 'with parameter enable_ctrlaltdel' do
+    ['true',true].each do |value|
+      context "set to #{value}" do
+        let(:params) { { :enable_ctrlaltdel => value } }
+        let :facts do
+          { :osfamily               => 'RedHat',
+            :release                => '6',
+            :operatingsystemrelease => '6.5',
+          }
+        end
+
+      end
+    end
+
+    context 'set to a non-boolean' do
+      let(:params) { { :enable_ctrlaltdel => 'invalid' } }
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '6',
+          :operatingsystemrelease => '6.5',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
       end
     end
   end

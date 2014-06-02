@@ -32,8 +32,10 @@ l4:4:wait:/etc/rc.d/rc 4
 l5:5:wait:/etc/rc.d/rc 5
 l6:6:wait:/etc/rc.d/rc 6
 
+<% if @enable_ctrlaltdel_bool == true -%>
 # Trap CTRL-ALT-DELETE
 ca::ctrlaltdel:/sbin/shutdown -t3 -r now
+<% end -%>
 
 # When our UPS tells us power has failed, assume we have a few minutes
 # of power left.  Schedule a shutdown for 2 minutes from now.
