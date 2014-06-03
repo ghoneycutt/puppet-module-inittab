@@ -21,6 +21,9 @@
 #
 id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
 
+# Require password for Single User Mode
+~~:S:wait:/sbin/sulogin
+
 # System initialization.
 si::sysinit:/etc/rc.d/rc.sysinit
 
