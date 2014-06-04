@@ -146,9 +146,9 @@ class inittab (
   validate_re($default_runlevel_real, '^[0-6sS]$', "default_runlevel <${default_runlevel_real}> does not match regex")
 
   if $enable_ctrlaltdel_bool == true {
-    $ctrlaltdel_override_ensure = 'file'
-  } else {
     $ctrlaltdel_override_ensure = 'absent'
+  } else {
+    $ctrlaltdel_override_ensure = 'file'
   }
 
   if $::operatingsystem == 'Ubuntu' {
