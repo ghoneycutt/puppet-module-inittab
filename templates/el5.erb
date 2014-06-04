@@ -21,7 +21,7 @@
 #
 id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
 
-<% if @require_single_user_mode_password == true -%>
+<% if @require_single_user_mode_password_bool == true -%>
 # Require password for Single User Mode
 ~~:S:wait:/sbin/sulogin
 
