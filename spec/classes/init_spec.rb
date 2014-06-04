@@ -64,8 +64,8 @@ describe 'inittab' do
     context 'as a valid path' do
       let(:params) do
         {
-          :ctrlaltdel_override_path  => '/path/to/control-alt-delete.override',
-          :enable_ctrlaltdel         => true,
+          :ctrlaltdel_override_path => '/path/to/control-alt-delete.override',
+          :enable_ctrlaltdel        => false,
         }
       end
       let(:facts) do
@@ -89,8 +89,8 @@ describe 'inittab' do
     context 'as an invalid path' do
       let(:params) do
         {
-          :ctrlaltdel_override_path  => 'invalid/path',
-          :enable_ctrlaltdel         => true,
+          :ctrlaltdel_override_path => 'invalid/path',
+          :enable_ctrlaltdel        => false,
         }
       end
       let(:facts) do
@@ -110,8 +110,8 @@ describe 'inittab' do
     context 'as an invalid type' do
       let(:params) do
         {
-          :ctrlaltdel_override_path  => true,
-          :enable_ctrlaltdel         => true,
+          :ctrlaltdel_override_path => true,
+          :enable_ctrlaltdel        => false,
         }
       end
       let(:facts) do
@@ -134,7 +134,7 @@ describe 'inittab' do
       let(:params) do
         {
           :ctrlaltdel_override_owner => 'gh',
-          :enable_ctrlaltdel         => true,
+          :enable_ctrlaltdel         => false,
         }
       end
       let(:facts) do
@@ -177,7 +177,7 @@ describe 'inittab' do
       let(:params) do
         {
           :ctrlaltdel_override_group => 'gh',
-          :enable_ctrlaltdel         => true,
+          :enable_ctrlaltdel         => false,
         }
       end
       let(:facts) do
@@ -217,7 +217,12 @@ describe 'inittab' do
 
   describe 'with ctrlaltdel_override_mode specified' do
     context 'as a valid mode' do
-      let(:params) { { :ctrlaltdel_override_mode => '0600' } }
+      let(:params) do
+        {
+          :ctrlaltdel_override_mode => '0600',
+          :enable_ctrlaltdel        => false,
+        }
+      end
       let(:facts) do
         {
           :osfamily               => 'RedHat',
@@ -238,7 +243,12 @@ describe 'inittab' do
 
     [true,'666','66666'].each do |mode|
       context "as invalid mode #{mode}" do
-        let(:params) { { :ctrlaltdel_override_mode => mode } }
+        let(:params) do
+          {
+            :ctrlaltdel_override_mode => mode,
+            :enable_ctrlaltdel        => false,
+          }
+        end
 
         it 'should fail' do
           expect {
@@ -403,7 +413,7 @@ end
               })
             }
 
-            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'true'
+            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'false'
               it {
                 should contain_file('ctrlaltdel_override').with({
                   :ensure => 'file',
@@ -419,7 +429,7 @@ end
               it { should contain_file('ctrlaltdel_override').with_content(ctrlaltdel_override_fixture) }
             end
 
-            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'false'
+            if v[:support_ctrlaltdel_override].to_s == 'true' and enable_ctrlaltdel_value.to_s == 'true'
               it {
                 should contain_file('ctrlaltdel_override').with({
                   :ensure => 'absent',
@@ -438,7 +448,9 @@ end
             end
 
             if v[:support_ctrlaltdel_override].to_s == 'false' and enable_ctrlaltdel_value.to_s == 'false'
+
               it { should_not contain_file('ctrlaltdel_override') }
+
               it { should contain_file('inittab').without_content(/^\s*ca/) }
             end
           end
