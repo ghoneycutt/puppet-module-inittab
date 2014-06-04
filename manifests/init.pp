@@ -3,14 +3,15 @@
 # Manage inittab
 #
 class inittab (
-  $default_runlevel          = 'USE_DEFAULTS',
-  $ensure_ttys1              = undef,
-  $file_mode                 = '0644',
-  $enable_ctrlaltdel         = true,
-  $ctrlaltdel_override_path  = 'USE_DEFAULTS',
-  $ctrlaltdel_override_owner = 'root',
-  $ctrlaltdel_override_group = 'root',
-  $ctrlaltdel_override_mode  = '0644',
+  $default_runlevel                   = 'USE_DEFAULTS',
+  $ensure_ttys1                       = undef,
+  $file_mode                          = '0644',
+  $require_single_user_mode_password  = false,
+  $enable_ctrlaltdel                  = true,
+  $ctrlaltdel_override_path           = 'USE_DEFAULTS',
+  $ctrlaltdel_override_owner          = 'root',
+  $ctrlaltdel_override_group          = 'root',
+  $ctrlaltdel_override_mode           = '0644',
 ) {
 
   if $ensure_ttys1 {
@@ -19,6 +20,13 @@ class inittab (
 
   validate_re($file_mode, '^[0-7]{4}$',
     "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
+
+  if type($require_single_user_mode_password) == 'string' {
+    $require_single_user_mode_password_bool = str2bool($require_single_user_mode_password)
+  } else {
+    $require_single_user_mode_password_bool = $require_single_user_mode_password
+  }
+  validate_bool($require_single_user_mode_password_bool)
 
   if type($enable_ctrlaltdel) == 'string' {
     $enable_ctrlaltdel_bool = str2bool($enable_ctrlaltdel)

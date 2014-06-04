@@ -60,6 +60,45 @@ describe 'inittab' do
     end
   end
 
+  describe 'with parameter require_single_user_mode_password' do
+    [true,'true',false,'false'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { :require_single_user_mode_password => value } }
+        let(:facts) do
+          {
+            :osfamily               => 'RedHat',
+            :release                => '5',
+            :operatingsystemrelease => '5.8',
+          }
+        end
+
+        if value.to_s == 'true'
+          it { should contain_file('inittab').with_content(/^\s*~~:S:wait:\/sbin\/sulogin$/) }
+        end
+
+        if value.to_s == 'false'
+          it { should contain_file('inittab').without_content(/^\s*~~:S:wait:\/sbin\/sulogin$/) }
+        end
+      end
+    end
+
+    context 'set to a non-boolean' do
+      let(:params) { { :require_single_user_mode_password => 'invalid' } }
+      let :facts do
+        { :osfamily               => 'RedHat',
+          :release                => '5',
+          :operatingsystemrelease => '5.8',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
   describe 'with ctrlaltdel_override_path specified' do
     context 'as a valid path' do
       let(:params) do

@@ -44,6 +44,12 @@ String of file mode in four digit octal notation for inittab.
 
 - *Default*: '0644'
 
+require_single_user_mode_password
+---------------------------------
+Boolean to require a password when selecting Single User Mode. EL 5 only.
+
+- *Default*: false
+
 enable_ctrlaltdel
 -----------------
 Boolean to enable control-alt-delete. Supported on Linux systems. If set to false, the command `exec logger "control-alt-delete issued"` will be triggered whenever control-alt-delete is issued.
