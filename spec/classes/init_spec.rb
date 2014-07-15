@@ -135,6 +135,11 @@ end
         :release                    => '11',
         :operatingsystemrelease     => '11.3',
       },
+    'suse12' =>
+      { :osfamily                   => 'Suse',
+        :release                    => '12',
+        :operatingsystemrelease     => '12.2',
+      },
   }
 
   describe 'with default values for parameters on' do

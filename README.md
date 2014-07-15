@@ -20,6 +20,7 @@ Compatible with the following platforms.
 * Solaris 11
 * Suse 10
 * Suse 11
+* Suse 12
 * Ubuntu 12.04 LTS (Precise Pangolin)
 
 ===
