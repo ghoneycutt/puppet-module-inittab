@@ -417,6 +417,11 @@ end
         :operatingsystemrelease      => '11.3',
         :support_ctrlaltdel_override => 'false',
       },
+    'suse12' =>
+      { :osfamily                   => 'Suse',
+        :release                    => '12',
+        :operatingsystemrelease     => '12.2',
+      },
   }
 
   describe 'with values for parameters left at their default values' do

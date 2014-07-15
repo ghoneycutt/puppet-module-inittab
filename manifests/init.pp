@@ -134,6 +134,10 @@ class inittab (
           $default_default_runlevel = 3
           $template                 = 'inittab/suse11.erb'
         }
+        /^12/: {
+          $default_default_runlevel = 3
+          $template                 = 'inittab/suse12.erb'
+        }
         default: {
           fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports Suse versions 10 and 11.")
         }
