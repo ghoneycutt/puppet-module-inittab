@@ -203,4 +203,16 @@ class inittab (
       mode    => $ctrlaltdel_override_mode,
     }
   }
+  if ($::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6') {
+    $shell = $require_single_user_mode_password_bool ? { 
+      true => '/sbin/sulogin', 
+      false => '/sbin/sushell',
+    }
+   
+    file_line { 'Single user mode':
+      path => '/etc/sysconfig/init',
+      line => "SINGLE=$shell",
+      match => 'SINGLE=',
+    }
+  }
 }
