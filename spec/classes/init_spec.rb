@@ -82,6 +82,28 @@ describe 'inittab' do
       end
     end
 
+  describe 'with parameter require_single_user_mode_password_rhel6' do
+    [true,'true',false,'false'].each do |value|
+      context "set to #{value}" do
+        let(:params) { { :require_single_user_mode_password => value } }
+        let(:facts) do
+          {
+            :osfamily               => 'RedHat',
+            :release                => '6',
+            :operatingsystemrelease => '6.5',
+          }
+        end
+
+        if value.to_s == 'true'
+          it { should contain_file('/etc/sysconfig/inittab').with_content(/^SINGLE=\/sbin\/sulogin$/) }
+        end
+
+        if value.to_s == 'false'
+          it { should contain_file('/etc/sysconfig/inittab').with_content(/^SINGLE=\/sbin\/sushell$/) }
+        end
+      end
+    end
+
     context 'set to a non-boolean' do
       let(:params) { { :require_single_user_mode_password => 'invalid' } }
       let :facts do
