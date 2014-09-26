@@ -309,7 +309,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/^operatingsystemrelease is <0> and inittab supports RedHat versions 5 and 6./)
+        }.to raise_error(Puppet::Error,/^operatingsystemrelease is <0> and inittab supports RedHat versions 5, 6 and 7./)
       end
     end
 
@@ -392,6 +392,12 @@ end
         :release                     => '6',
         :operatingsystemrelease      => '6.5',
         :support_ctrlaltdel_override => 'true',
+      },
+    'el7' =>
+      { :osfamily                    => 'RedHat',
+        :release                     => '7',
+        :operatingsystemrelease      => '7.0',
+        :support_ctrlaltdel_override => 'false',
       },
     'solaris10' =>
       { :osfamily                    => 'Solaris',

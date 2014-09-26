@@ -79,8 +79,13 @@ class inittab (
             }
           }
         }
+        /^7/: {
+          $default_default_runlevel    = 3
+          $template                    = 'inittab/el7.erb'
+          $support_ctrlaltdel_override = false
+        }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5 and 6.")
+          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5, 6 and 7.")
         }
       }
     }
