@@ -16,6 +16,7 @@ Compatible with the following platforms.
 * Debian 6 (squeeze)
 * EL 5
 * EL 6
+* EL 7
 * Solaris 10
 * Solaris 11
 * Suse 10
