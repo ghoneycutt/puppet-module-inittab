@@ -21,14 +21,14 @@ class inittab (
   validate_re($file_mode, '^[0-7]{4}$',
     "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
 
-  if type($require_single_user_mode_password) == 'string' {
+  if is_string($require_single_user_mode_password) {
     $require_single_user_mode_password_bool = str2bool($require_single_user_mode_password)
   } else {
     $require_single_user_mode_password_bool = $require_single_user_mode_password
   }
   validate_bool($require_single_user_mode_password_bool)
 
-  if type($enable_ctrlaltdel) == 'string' {
+  if is_string($enable_ctrlaltdel) {
     $enable_ctrlaltdel_bool = str2bool($enable_ctrlaltdel)
   } else {
     $enable_ctrlaltdel_bool = $enable_ctrlaltdel
