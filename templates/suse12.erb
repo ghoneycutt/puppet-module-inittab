@@ -23,7 +23,7 @@
 #   /etc/systemd/system/default.target has to relinked
 #   to e.g. /lib/systemd/system/runlevel3.target
 #
-id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
+id:<%= @default_runlevel_real %>:initdefault:
 
 # First script to be executed, if not booting in emergency (-b) mode
 si::bootwait:/etc/init.d/boot
