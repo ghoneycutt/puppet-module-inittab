@@ -26,4 +26,4 @@
 #   5 - Full multiuser mode
 #   6 - reboot (Do NOT set initdefault to this)
 #
-env DEFAULT_RUNLEVEL=<%= scope.lookupvar('inittab::default_runlevel_real_string') %>
+env DEFAULT_RUNLEVEL=<%= @default_runlevel_real_string %>
