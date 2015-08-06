@@ -159,8 +159,14 @@ class inittab (
     $default_runlevel_real = $default_runlevel
   }
 
+  # convert integer to string
+  if type3x($default_runlevel_real) == 'integer' {
+    $default_runlevel_real_string = "${default_runlevel_real}" # lint:ignore:only_variable_string
+  }
+
   # validate default_runlevel_real
-  validate_re($default_runlevel_real, '^[0-6sS]$', "default_runlevel <${default_runlevel_real}> does not match regex")
+  validate_re($default_runlevel_real_string, '^[0-6sS]$',
+    "default_runlevel <${default_runlevel_real}> does not match regex")
 
   if $enable_ctrlaltdel_bool == true {
     $ctrlaltdel_override_ensure = 'absent'

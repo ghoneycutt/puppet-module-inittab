@@ -20,7 +20,7 @@
 #
 #
 # The default runlevel is defined here
-id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
+id:<%= scope.lookupvar('inittab::default_runlevel_real_string') %>:initdefault:
 
 # First script to be executed, if not booting in emergency (-b) mode
 si::bootwait:/etc/init.d/boot
