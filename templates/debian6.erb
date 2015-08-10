@@ -5,7 +5,7 @@
 # $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
 
 # The default runlevel.
-id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
+id:<%= @default_runlevel_real_string %>:initdefault:
 
 # Boot-time system configuration/initialization script.
 # This is run first except when booting in emergency (-b) mode.

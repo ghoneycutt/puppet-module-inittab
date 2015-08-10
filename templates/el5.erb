@@ -19,7 +19,7 @@
 #   5 - X11
 #   6 - reboot (Do NOT set initdefault to this)
 #
-id:<%= scope.lookupvar('inittab::default_runlevel_real') %>:initdefault:
+id:<%= @default_runlevel_real_string %>:initdefault:
 
 <% if @require_single_user_mode_password_bool == true -%>
 # Require password for Single User Mode
