@@ -3,7 +3,8 @@
 
 [![Build Status](https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
 
-Puppet module to manage inittab
+Puppet module to manage inittab. To use this module simply add the inittab
+class to your node or add `include ::inittab` to your code.
 
 ===
 
