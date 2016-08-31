@@ -1,3 +1,11 @@
+### v2.8.1
+   Documentation changes to get Approved status
+
+   * Bump year in LICENSE
+   * Add CHANGELOG
+   * Document usage of module
+   * Use https in fixtures for easier use behind corp firewalls
+
 ### v2.8.0
   Support Puppet v4 and v3 with future parser
 
