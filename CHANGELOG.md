@@ -1,3 +1,7 @@
+### v2.9.0 - 2016-08-31
+  Add support for Ruby v2.3.1
+  Add support for strict variable checking
+
 ### v2.8.1
    Documentation changes to get Approved status
 
