@@ -15,6 +15,7 @@ describe 'inittab' do
     let(:params) { { :default_runlevel => '10' } }
     let :facts do
       { :osfamily               => 'RedHat',
+        :operatingsystem        => 'RedHat',
         :operatingsystemrelease => '6.5',
       }
     end
@@ -32,6 +33,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -68,6 +70,7 @@ describe 'inittab' do
           {
             :osfamily               => 'RedHat',
             :release                => '5',
+            :operatingsystem        => 'RedHat',
             :operatingsystemrelease => '5.8',
           }
         end
@@ -87,6 +90,7 @@ describe 'inittab' do
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '5',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '5.8',
         }
       end
@@ -110,6 +114,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -135,6 +140,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -156,6 +162,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -179,6 +186,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -199,6 +207,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -222,6 +231,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -242,6 +252,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -265,6 +276,7 @@ describe 'inittab' do
       let(:facts) do
         {
           :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6',
         }
       end
@@ -302,6 +314,7 @@ describe 'inittab' do
     context 'version of osfamily RedHat' do
       let :facts do
         { :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '0',
         }
       end
@@ -371,18 +384,21 @@ end
     'debian6' =>
       { :osfamily                    => 'Debian',
         :release                     => '6',
+        :operatingsystem             => 'Debian',
         :operatingsystemmajrelease   => '6',
         :support_ctrlaltdel_override => 'false',
       },
     'el5' =>
       { :osfamily                    => 'RedHat',
         :release                     => '5',
+        :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '5.9',
         :support_ctrlaltdel_override => 'false',
       },
     'el5xenu' =>
       { :osfamily                    => 'RedHat',
         :release                     => '5',
+        :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '5.9',
         :virtual                     => 'xenu',
         :support_ctrlaltdel_override => 'false',
@@ -390,43 +406,50 @@ end
     'el6' =>
       { :osfamily                    => 'RedHat',
         :release                     => '6',
+        :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '6.5',
         :support_ctrlaltdel_override => 'true',
       },
     'el7' =>
       { :osfamily                    => 'RedHat',
         :release                     => '7',
+        :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '7.0',
         :support_ctrlaltdel_override => 'false',
       },
     'solaris10' =>
       { :osfamily                    => 'Solaris',
         :release                     => '10',
+        :operatingsystem             => 'Solaris',
         :kernelrelease               => '5.10',
         :support_ctrlaltdel_override => 'false',
       },
     'solaris11' =>
       { :osfamily                    => 'Solaris',
         :release                     => '11',
+        :operatingsystem             => 'Solaris',
         :kernelrelease               => '5.11',
         :support_ctrlaltdel_override => 'false',
       },
     'suse10' =>
       { :osfamily                    => 'Suse',
         :release                     => '10',
+        :operatingsystem             => 'Suse',
         :operatingsystemrelease      => '10.4',
         :support_ctrlaltdel_override => 'false',
       },
     'suse11' =>
       { :osfamily                    => 'Suse',
         :release                     => '11',
+        :operatingsystem             => 'Suse',
         :operatingsystemrelease      => '11.3',
         :support_ctrlaltdel_override => 'false',
       },
     'suse12' =>
-      { :osfamily                   => 'Suse',
-        :release                    => '12',
-        :operatingsystemrelease     => '12.2',
+      { :osfamily               => 'Suse',
+        :release                => '12',
+        :operatingsystem        => 'Suse',
+        :operatingsystemrelease => '12.2',
       },
   }
 
@@ -439,11 +462,12 @@ end
             ctrlaltdel_override_fixture = File.read(fixtures('control-alt-delete.override'))
             let(:params) { { :enable_ctrlaltdel => enable_ctrlaltdel_value } }
             let :facts do
-              { :osfamily                   => v[:osfamily],
-                :operatingsystemrelease     => v[:operatingsystemrelease],
-                :operatingsystemmajrelease  => v[:operatingsystemmajrelease],
-                :kernelrelease              => v[:kernelrelease],
-                :virtual                    => v[:virtual],
+              { :osfamily                  => v[:osfamily],
+                :operatingsystem           => v[:operatingsystem],
+                :operatingsystemrelease    => v[:operatingsystemrelease],
+                :operatingsystemmajrelease => v[:operatingsystemmajrelease],
+                :kernelrelease             => v[:kernelrelease],
+                :virtual                   => v[:virtual],
               }
             end
 
@@ -515,6 +539,7 @@ end
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '6',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6.5',
         }
       end
@@ -548,6 +573,7 @@ end
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '6',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6.5',
         }
       end
@@ -570,6 +596,7 @@ end
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '6',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6.5',
         }
       end
@@ -584,6 +611,7 @@ end
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '6',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6.5',
         }
       end
@@ -603,6 +631,7 @@ end
         let :facts do
           { :osfamily               => 'RedHat',
             :release                => '6',
+            :operatingsystem        => 'RedHat',
             :operatingsystemrelease => '6.5',
           }
         end
@@ -615,6 +644,7 @@ end
       let :facts do
         { :osfamily               => 'RedHat',
           :release                => '6',
+          :operatingsystem        => 'RedHat',
           :operatingsystemrelease => '6.5',
         }
       end
