@@ -1,3 +1,7 @@
+### v2.9.1 - 2016-11-17
+  (maint) Fix ruby dependencies
+  Explicitly support puppet-lint v2
+
 ### v2.9.0 - 2016-08-31
   Add support for Ruby v2.3.1
   Add support for strict variable checking
