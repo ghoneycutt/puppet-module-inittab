@@ -1,18 +1,16 @@
 # puppet-module-inittab
 ===
 
-[![Build Status](https://api.travis-ci.org/ghoneycutt/puppet-module-inittab.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-inittab)
-
-Puppet module to manage inittab. To use this module simply add the inittab
-class to your node or add `include ::inittab` to your code.
+Puppet module to manage inittab. To use this module simply `include
+::inittab`.
 
 ===
 
 # Compatibility
 
 Works with Puppet v3 (with and without future parser) and Puppet v4 with
-Ruby versions 1.8.7, 1.9.3, 2.0.0, 2.1.0 and 2.3.1 on the following
-platforms.
+Ruby versions 1.8.7, 1.9.3, 2.0.0 and 2.1.9 on the following platforms.
+See `.travis.yml` for an exact matrix of Puppet and Ruby versions.
 
 * Debian 6 (squeeze)
 * EL 5
