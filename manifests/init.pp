@@ -49,12 +49,14 @@ class inittab (
           $default_default_runlevel    = 3
           $template                    = 'inittab/el5.erb'
           $support_ctrlaltdel_override = false
+          $systemd                     = false
         }
         /^6/: {
           $default_default_runlevel         = 3
           $template                         = 'inittab/el6.erb'
           $support_ctrlaltdel_override      = true
           $default_ctrlaltdel_override_path = '/etc/init/control-alt-delete.override'
+          $systemd                          = false
 
           if $ensure_ttys1 {
             file { 'ttys1_conf':
@@ -83,6 +85,7 @@ class inittab (
           $default_default_runlevel    = 3
           $template                    = 'inittab/el7.erb'
           $support_ctrlaltdel_override = false
+          $systemd                     = true
         }
         default: {
           fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5, 6 and 7.")
@@ -91,6 +94,7 @@ class inittab (
     }
     'Debian': {
       $support_ctrlaltdel_override = false
+      $systemd                     = false
 
       if $::operatingsystem == 'Ubuntu' {
 
@@ -112,6 +116,7 @@ class inittab (
     }
     'Solaris': {
       $support_ctrlaltdel_override = false
+      $systemd                     = false
 
       case $::kernelrelease {
         '5.10': {
@@ -129,6 +134,7 @@ class inittab (
     }
     'Suse':{
       $support_ctrlaltdel_override = false
+      $systemd                     = false
 
       case $::operatingsystemrelease {
         /^10/: {
@@ -170,8 +176,10 @@ class inittab (
 
   if $enable_ctrlaltdel_bool == true {
     $ctrlaltdel_override_ensure = 'absent'
+    $ctrlaltdel_target = '/lib/systemd/system/ctrl-alt-del.target'
   } else {
     $ctrlaltdel_override_ensure = 'file'
+    $ctrlaltdel_target = '/dev/null'
   }
 
   if $::operatingsystem == 'Ubuntu' {
@@ -194,6 +202,30 @@ class inittab (
     }
   }
 
+  if $systemd == true {
+    case $default_runlevel_real {
+      3: {
+        $target = '/lib/systemd/system/multi-user.target'
+      }
+      5: {
+        $target = '/lib/systemd/system/graphical.target'
+      }
+      default: {
+        fail("default_runlevel for EL7 is <${default_runlevel_real}> and must be 3 or 5.")
+      }
+    }
+
+    file { '/etc/systemd/system/default.target':
+      ensure => 'link',
+      target => $target,
+    }
+
+    file { '/etc/systemd/system/ctrl-alt-del.target':
+      ensure => 'link',
+      target => $ctrlaltdel_target,
+    }
+  }
+
   validate_bool($support_ctrlaltdel_override)
 
   if $support_ctrlaltdel_override == true {
@@ -205,13 +237,15 @@ class inittab (
     }
     validate_absolute_path($ctrlaltdel_override_path_real)
 
-    file { 'ctrlaltdel_override':
-      ensure  => $ctrlaltdel_override_ensure,
-      path    => $ctrlaltdel_override_path_real,
-      content => template('inittab/control-alt-delete.override.erb'),
-      owner   => $ctrlaltdel_override_owner,
-      group   => $ctrlaltdel_override_group,
-      mode    => $ctrlaltdel_override_mode,
+    if $systemd == false {
+      file { 'ctrlaltdel_override':
+        ensure  => $ctrlaltdel_override_ensure,
+        path    => $ctrlaltdel_override_path_real,
+        content => template('inittab/control-alt-delete.override.erb'),
+        owner   => $ctrlaltdel_override_owner,
+        group   => $ctrlaltdel_override_group,
+        mode    => $ctrlaltdel_override_mode,
+      }
     }
   }
 }

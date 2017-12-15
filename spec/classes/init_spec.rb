@@ -387,6 +387,7 @@ end
         :operatingsystem             => 'Debian',
         :operatingsystemmajrelease   => '6',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'el5' =>
       { :osfamily                    => 'RedHat',
@@ -394,6 +395,7 @@ end
         :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '5.9',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'el5xenu' =>
       { :osfamily                    => 'RedHat',
@@ -402,6 +404,7 @@ end
         :operatingsystemrelease      => '5.9',
         :virtual                     => 'xenu',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'el6' =>
       { :osfamily                    => 'RedHat',
@@ -409,6 +412,7 @@ end
         :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '6.5',
         :support_ctrlaltdel_override => 'true',
+        :systemd                     => false,
       },
     'el7' =>
       { :osfamily                    => 'RedHat',
@@ -416,6 +420,7 @@ end
         :operatingsystem             => 'RedHat',
         :operatingsystemrelease      => '7.0',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => true,
       },
     'solaris10' =>
       { :osfamily                    => 'Solaris',
@@ -423,6 +428,7 @@ end
         :operatingsystem             => 'Solaris',
         :kernelrelease               => '5.10',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'solaris11' =>
       { :osfamily                    => 'Solaris',
@@ -430,6 +436,7 @@ end
         :operatingsystem             => 'Solaris',
         :kernelrelease               => '5.11',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'suse10' =>
       { :osfamily                    => 'Suse',
@@ -437,6 +444,7 @@ end
         :operatingsystem             => 'Suse',
         :operatingsystemrelease      => '10.4',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'suse11' =>
       { :osfamily                    => 'Suse',
@@ -444,12 +452,14 @@ end
         :operatingsystem             => 'Suse',
         :operatingsystemrelease      => '11.3',
         :support_ctrlaltdel_override => 'false',
+        :systemd                     => false,
       },
     'suse12' =>
       { :osfamily               => 'Suse',
         :release                => '12',
         :operatingsystem        => 'Suse',
         :operatingsystemrelease => '12.2',
+        :systemd                => false,
       },
   }
 
@@ -526,6 +536,32 @@ end
               it { should_not contain_file('ctrlaltdel_override') }
 
               it { should contain_file('inittab').without_content(/^\s*ca/) }
+            end
+
+            if v[:systemd] == true
+              it { should_not contain_file('ctrlaltdel_override') }
+
+              it do
+                should contain_file('/etc/systemd/system/default.target').with({
+                  :ensure => 'link',
+                  :target => '/lib/systemd/system/multi-user.target',
+                })
+              end
+
+              if enable_ctrlaltdel_value.to_s == 'true'
+                ctrlaltdel_target = '/lib/systemd/system/ctrl-alt-del.target'
+              else
+                ctrlaltdel_target = '/dev/null'
+              end
+
+              it do
+                should contain_file('/etc/systemd/system/ctrl-alt-del.target').with({
+                  :ensure => 'link',
+                  :target => ctrlaltdel_target,
+                })
+              end
+            else
+              it { should_not contain_file('/etc/systemd/system/ctrl-alt-del.target') }
             end
           end
         end
