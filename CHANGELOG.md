@@ -1,3 +1,6 @@
+### v2.9.2 - 2018-06-11
+  Fix for EL7
+
 ### v2.9.1 - 2016-11-17
   (maint) Fix ruby dependencies
   Explicitly support puppet-lint v2
