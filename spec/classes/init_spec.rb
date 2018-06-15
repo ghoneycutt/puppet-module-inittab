@@ -692,4 +692,48 @@ end
       end
     end
   end
+
+  describe 'with ctrlaltdelburstaction specified' do
+    context 'set to a valid value' do
+      let(:params) do
+        {
+          :ctrlaltdelburstaction => 'none',
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
+          :operatingsystemrelease => '7',
+        }
+      end
+
+      it {
+        should contain_file_line('CtrlAltDelBurstAction').with({
+          :line => "CtrlAltDelBurstAction=#{params[:ctrlaltdelburstaction]}",
+        })
+      }
+    end
+
+    context 'set to an invalid value' do
+      let(:params) do
+        {
+          :ctrlaltdelburstaction => 'invalid-value',
+        }
+      end
+      let(:facts) do
+        {
+          :osfamily               => 'RedHat',
+          :operatingsystem        => 'RedHat',
+          :operatingsystemrelease => '7',
+        }
+      end
+
+      it 'should fail' do
+        expect {
+          should contain_class('inittab')
+        }.to raise_error(Puppet::Error,/inittab::ctrlaltdelburstaction is #{params[:ctrlaltdelburstaction]} and if defined must be/)
+      end
+    end
+  end
 end

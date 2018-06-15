@@ -80,3 +80,9 @@ ctrlaltdel_override_mode
 String of four digital octal mode of control-alt-delete.override file. Only used on EL 6.
 
 - *Default*: '0644'
+
+ctrlaltdelburstaction
+------------------------
+String that defines what action will be performed if user presses Ctrl-Alt-Delete more than 7 times in 2s. Only used on EL 7.
+
+- *Default*: undef

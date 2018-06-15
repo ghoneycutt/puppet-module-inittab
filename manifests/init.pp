@@ -12,6 +12,7 @@ class inittab (
   $ctrlaltdel_override_owner          = 'root',
   $ctrlaltdel_override_group          = 'root',
   $ctrlaltdel_override_mode           = '0644',
+  $ctrlaltdelburstaction              = undef,
 ) {
 
   if $ensure_ttys1 {
@@ -224,6 +225,19 @@ class inittab (
       ensure => 'link',
       target => $ctrlaltdel_target,
     }
+
+    if $ctrlaltdelburstaction {
+      validate_re($ctrlaltdelburstaction,'^(reboot-force)|(poweroff-force)|(reboot-immediate)|(poweroff-immediate)|(none)$',
+        "inittab::ctrlaltdelburstaction is ${ctrlaltdelburstaction} and if defined must be \'reboot-force\' or \'poweroff-force\' or \'reboot-immediate\' or \'poweroff-immediate\' or \'none\'.")
+
+      file_line { 'CtrlAltDelBurstAction':
+        ensure => present,
+        path   => '/etc/systemd/system.conf',
+        line   => "CtrlAltDelBurstAction=${ctrlaltdelburstaction}",
+        match  => '^CtrlAltDelBurstAction=',
+      }
+    }
+
   }
 
   validate_bool($support_ctrlaltdel_override)
