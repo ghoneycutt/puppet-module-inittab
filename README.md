@@ -8,9 +8,9 @@ Puppet module to manage inittab. To use this module simply `include
 
 # Compatibility
 
-Works with Puppet v3 (with and without future parser) and Puppet v4 with
-Ruby versions 1.8.7, 1.9.3, 2.0.0 and 2.1.9 on the following platforms.
-See `.travis.yml` for an exact matrix of Puppet and Ruby versions.
+This module has been tested to work on the following systems with the
+latest Puppet v3, v3 with future parser, v4, v5 and v6.  See `.travis.yml`
+for the exact matrix of supported Puppet and ruby versions.
 
 * Debian 6 (squeeze)
 * EL 5
