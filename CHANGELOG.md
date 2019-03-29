@@ -1,3 +1,10 @@
+### v2.11.2 2019-03-29
+  Strongly typed params [#97](https://github.com/ghoneycutt/puppet-module-inittab/issues/97)
+  Update to latest PDK [#99](https://github.com/ghoneycutt/puppet-module-inittab/issues/99)
+  Fix Unit tests [#100](https://github.com/ghoneycutt/puppet-module-inittab/issues/100)
+  Update facts variables to use facts hash [#101](https://github.com/ghoneycutt/puppet-module-inittab/issues/101)
+  Add in module hiera data [#102](https://github.com/ghoneycutt/puppet-module-inittab/issues/102)
+
 ### v2.10.0 - 2019-01-03
   Support Puppet 6
 
