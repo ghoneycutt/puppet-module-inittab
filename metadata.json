@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-inittab",
-  "version": "2.10.0",
+  "version": "2.11.2",
   "author": "ghoneycutt",
   "summary": "Manages inittab",
   "license": "Apache-2.0",
