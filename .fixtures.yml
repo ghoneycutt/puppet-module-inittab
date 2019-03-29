@@ -2,4 +2,4 @@ fixtures:
   forge_modules:
     stdlib: "puppetlabs/stdlib"
   symlinks:
-    my_module: "#{source_dir}"
+    inittab: "#{source_dir}"
