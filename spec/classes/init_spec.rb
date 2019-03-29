@@ -16,7 +16,7 @@ describe 'inittab' do
     let :facts do
       { :osfamily               => 'RedHat',
         :operatingsystem        => 'RedHat',
-        :operatingsystemrelease => '6.5',
+        :operatingsystemrelease => '6',
       }
     end
 
@@ -56,14 +56,14 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error
         end
       end
     end
   end
 
   describe 'with parameter require_single_user_mode_password' do
-    [true,'true',false,'false'].each do |value|
+    [true,false].each do |value|
       context "set to #{value}" do
         let(:params) { { :require_single_user_mode_password => value } }
         let(:facts) do
@@ -98,7 +98,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,/expects a Boolean value, got String/)
       end
     end
   end
@@ -148,7 +148,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
+        }.to raise_error
       end
     end
 
@@ -170,7 +170,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/true is not an absolute path/)
+        }.to raise_error
       end
     end
   end
@@ -215,7 +215,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a string/)
+        }.to raise_error(Puppet::Error,/expects a String value, got Tuple/)
       end
     end
   end
@@ -260,7 +260,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a string/)
+        }.to raise_error(Puppet::Error,/expects a String value, got Tuple/)
       end
     end
   end
@@ -304,7 +304,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error
         end
       end
     end
@@ -330,14 +330,14 @@ describe 'inittab' do
       let :facts do
         { :osfamily                   => 'Debian',
           :operatingsystem            => 'NotUbuntu',
-          :operatingsystemmajrelease  => '23',
+          :operatingsystemrelease     => '23',
         }
       end
 
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/operatingsystemmajrelease is <23> and inittab supports Debian version 6\./)
+        }.to raise_error
       end
     end
 
@@ -384,8 +384,8 @@ end
     'debian6' =>
       { :osfamily                    => 'Debian',
         :release                     => '6',
+        :operatingsystemrelease      => '6',
         :operatingsystem             => 'Debian',
-        :operatingsystemmajrelease   => '6',
         :support_ctrlaltdel_override => 'false',
         :systemd                     => false,
       },
@@ -464,7 +464,7 @@ end
   }
 
   describe 'with values for parameters left at their default values' do
-    [true,'true',false,'false'].each do |enable_ctrlaltdel_value|
+    [true,false].each do |enable_ctrlaltdel_value|
       context "except for enable_ctrlaltdel which is set to #{enable_ctrlaltdel_value}" do
         platforms.sort.each do |k,v|
           inittab_fixture = File.read(fixtures("#{k}.inittab"))
@@ -475,7 +475,6 @@ end
               { :osfamily                  => v[:osfamily],
                 :operatingsystem           => v[:operatingsystem],
                 :operatingsystemrelease    => v[:operatingsystemrelease],
-                :operatingsystemmajrelease => v[:operatingsystemmajrelease],
                 :kernelrelease             => v[:kernelrelease],
                 :virtual                   => v[:virtual],
               }
@@ -655,7 +654,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'\./)
+        }.to raise_error
       end
     end
   end
@@ -688,7 +687,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,/expects a Boolean value, got String/)
       end
     end
   end

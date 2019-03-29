@@ -3,48 +3,23 @@
 # Manage inittab
 #
 class inittab (
-  $default_runlevel                   = 'USE_DEFAULTS',
-  $ensure_ttys1                       = undef,
-  $file_mode                          = '0644',
-  $require_single_user_mode_password  = false,
-  $enable_ctrlaltdel                  = true,
-  $ctrlaltdel_override_path           = 'USE_DEFAULTS',
-  $ctrlaltdel_override_owner          = 'root',
-  $ctrlaltdel_override_group          = 'root',
-  $ctrlaltdel_override_mode           = '0644',
+  Variant[Integer, String] $default_runlevel,
+  Optional[Enum['present','absent']] $ensure_ttys1,
+  Stdlib::Filemode $file_mode,
+  Boolean $require_single_user_mode_password,
+  Boolean $enable_ctrlaltdel,
+  Variant[String, Stdlib::Unixpath] $ctrlaltdel_override_path,
+  String $ctrlaltdel_override_owner,
+  String $ctrlaltdel_override_group,
+  Stdlib::Filemode $ctrlaltdel_override_mode,
 ) {
 
-  if $ensure_ttys1 {
-    validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
-  }
+  $require_single_user_mode_password_bool = $require_single_user_mode_password
+  $enable_ctrlaltdel_bool = $enable_ctrlaltdel
 
-  validate_re($file_mode, '^[0-7]{4}$',
-    "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
-
-  if is_string($require_single_user_mode_password) {
-    $require_single_user_mode_password_bool = str2bool($require_single_user_mode_password)
-  } else {
-    $require_single_user_mode_password_bool = $require_single_user_mode_password
-  }
-  validate_bool($require_single_user_mode_password_bool)
-
-  if is_string($enable_ctrlaltdel) {
-    $enable_ctrlaltdel_bool = str2bool($enable_ctrlaltdel)
-  } else {
-    $enable_ctrlaltdel_bool = $enable_ctrlaltdel
-  }
-  validate_bool($enable_ctrlaltdel_bool)
-
-  validate_string($ctrlaltdel_override_owner)
-
-  validate_string($ctrlaltdel_override_group)
-
-  validate_re($ctrlaltdel_override_mode, '^[0-7]{4}$',
-    "inittab::ctrlaltdel_override_mode is <${ctrlaltdel_override_mode}> and must be a valid four digit mode in octal notation.")
-
-  case $::osfamily {
+  case $facts['osfamily'] {
     'RedHat': {
-      case $::operatingsystemrelease {
+      case $facts['operatingsystemrelease'] {
         /^5/: {
           $default_default_runlevel    = 3
           $template                    = 'inittab/el5.erb'
@@ -88,7 +63,7 @@ class inittab (
           $systemd                     = true
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5, 6 and 7.")
+          fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports RedHat versions 5, 6 and 7.")
         }
       }
     }
@@ -96,20 +71,20 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      if $::operatingsystem == 'Ubuntu' {
+      if $facts['operatingsystem'] == 'Ubuntu' {
 
         $default_default_runlevel         = 3
         $template                         = 'inittab/ubuntu.erb'
 
       } else {
 
-        case $::operatingsystemmajrelease {
+        case $facts['operatingsystemrelease'] {
           '6': {
             $default_default_runlevel = 2
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Debian version 6.")
+            fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports Debian version 6.")
           }
         }
       }
@@ -118,7 +93,7 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      case $::kernelrelease {
+      case $facts['kernelrelease'] {
         '5.10': {
           $default_default_runlevel = 3
           $template                 = 'inittab/sol10.erb'
@@ -128,7 +103,7 @@ class inittab (
           $template                 = 'inittab/sol11.erb'
         }
         default: {
-          fail("kernelrelease is <${::kernelrelease}> and inittab supports Solaris versions 5.10 and 5.11.")
+          fail("kernelrelease is <${facts['kernelrelease']}> and inittab supports Solaris versions 5.10 and 5.11.")
         }
       }
     }
@@ -136,7 +111,7 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      case $::operatingsystemrelease {
+      case $facts['operatingsystemrelease'] {
         /^10/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse10.erb'
@@ -150,12 +125,12 @@ class inittab (
           $template                 = 'inittab/suse12.erb'
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports Suse versions 10 and 11.")
+          fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports Suse versions 10 and 11.")
         }
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
+      fail("osfamily is <${facts['osfamily']}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
     }
   }
 
@@ -182,7 +157,7 @@ class inittab (
     $ctrlaltdel_target = '/dev/null'
   }
 
-  if $::operatingsystem == 'Ubuntu' {
+  if $facts['operatingsystem'] == 'Ubuntu' {
     file { 'rc-sysinit.override':
       ensure  => file,
       path    => '/etc/init/rc-sysinit.override',
