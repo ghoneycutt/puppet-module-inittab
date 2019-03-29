@@ -3,3 +3,4 @@ fixtures:
     stdlib: "puppetlabs/stdlib"
   symlinks:
     inittab: "#{source_dir}"
+
