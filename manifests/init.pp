@@ -100,13 +100,13 @@ class inittab (
         $default_default_runlevel         = 3
         $template                         = 'inittab/ubuntu.erb'
       } else {
-        case $facts['operatingsystemrelease'] {
+        case $facts['operatingsystemmajrelease'] {
           '6': {
             $default_default_runlevel = 2
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports Debian version 6.")
+            fail("operatingsystemmajrelease is <${facts['operatingsystemmajrelease']}> and inittab supports Debian version 6.")
           }
         }
       }
