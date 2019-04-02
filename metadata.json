@@ -3,7 +3,6 @@
   "version": "2.10.0",
   "author": "ghoneycutt",
   "summary": "Manages inittab",
-  "description": "Manages inittab",
   "license": "Apache-2.0",
   "source": "git://github.com/ghoneycutt/puppet-module-inittab.git",
   "project_page": "https://github.com/ghoneycutt/puppet-module-inittab",
