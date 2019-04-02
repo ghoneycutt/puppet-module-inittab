@@ -655,7 +655,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::PreformattedError,/Evaluation Error: Error while evaluating a Function Call, ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'\./)
+        }.to raise_error(Puppet::PreformattedError,/Evaluation Error: Error while evaluating a Function Call, ensure_ttys1 is invalid. If defined it must be \'present\' or \'absent\'\./)
       end
     end
   end
