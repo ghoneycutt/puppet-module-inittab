@@ -15,7 +15,7 @@ class inittab (
 ) {
 
   if $ensure_ttys1 {
-    validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
+    validate_re($ensure_ttys1,'^(present)|(absent)$',"ensure_ttys1 is ${ensure_ttys1}. If defined it must be \'present\' or \'absent\'.")
   }
 
   validate_re($file_mode, '^[0-7]{4}$',
@@ -42,9 +42,9 @@ class inittab (
   validate_re($ctrlaltdel_override_mode, '^[0-7]{4}$',
     "inittab::ctrlaltdel_override_mode is <${ctrlaltdel_override_mode}> and must be a valid four digit mode in octal notation.")
 
-  case $::osfamily {
+  case $facts['osfamily'] {
     'RedHat': {
-      case $::operatingsystemrelease {
+      case $facts['operatingsystemrelease'] {
         /^5/: {
           $default_default_runlevel    = 3
           $template                    = 'inittab/el5.erb'
@@ -88,7 +88,7 @@ class inittab (
           $systemd                     = true
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5, 6 and 7.")
+          fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports RedHat versions 5, 6 and 7.")
         }
       }
     }
@@ -96,20 +96,17 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      if $::operatingsystem == 'Ubuntu' {
-
+      if $facts['operatingsystem'] == 'Ubuntu' {
         $default_default_runlevel         = 3
         $template                         = 'inittab/ubuntu.erb'
-
       } else {
-
-        case $::operatingsystemmajrelease {
+        case $facts['operatingsystemrelease'] {
           '6': {
             $default_default_runlevel = 2
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Debian version 6.")
+            fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports Debian version 6.")
           }
         }
       }
@@ -118,7 +115,7 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      case $::kernelrelease {
+      case $facts['kernelrelease'] {
         '5.10': {
           $default_default_runlevel = 3
           $template                 = 'inittab/sol10.erb'
@@ -128,7 +125,7 @@ class inittab (
           $template                 = 'inittab/sol11.erb'
         }
         default: {
-          fail("kernelrelease is <${::kernelrelease}> and inittab supports Solaris versions 5.10 and 5.11.")
+          fail("kernelrelease is <${facts['kernelrelease']}> and inittab supports Solaris versions 5.10 and 5.11.")
         }
       }
     }
@@ -136,7 +133,7 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      case $::operatingsystemrelease {
+      case $facts['operatingsystemrelease'] {
         /^10/: {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse10.erb'
@@ -150,12 +147,12 @@ class inittab (
           $template                 = 'inittab/suse12.erb'
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports Suse versions 10 and 11.")
+          fail("operatingsystemrelease is <${facts['operatingsystemrelease']}> and inittab supports Suse versions 10 and 11.")
         }
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
+      fail("osfamily is <${facts['osfamily']}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
     }
   }
 
@@ -182,7 +179,7 @@ class inittab (
     $ctrlaltdel_target = '/dev/null'
   }
 
-  if $::operatingsystem == 'Ubuntu' {
+  if $facts['operatingsystem'] == 'Ubuntu' {
     file { 'rc-sysinit.override':
       ensure  => file,
       path    => '/etc/init/rc-sysinit.override',
