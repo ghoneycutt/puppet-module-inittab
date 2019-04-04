@@ -3,15 +3,15 @@
 # Manage inittab
 #
 class inittab (
-  $default_runlevel                   = 'USE_DEFAULTS',
-  $ensure_ttys1                       = undef,
-  $file_mode                          = '0644',
-  $require_single_user_mode_password  = false,
-  $enable_ctrlaltdel                  = true,
-  $ctrlaltdel_override_path           = 'USE_DEFAULTS',
-  $ctrlaltdel_override_owner          = 'root',
-  $ctrlaltdel_override_group          = 'root',
-  $ctrlaltdel_override_mode           = '0644',
+  Variant[Integer, String] $default_runlevel                 = 'USE_DEFAULTS',
+  Optional[Variant[Boolean,String]] $ensure_ttys1            = undef,
+  Variant[Boolean,String] $file_mode                         = '0644',
+  Variant[Boolean,String] $require_single_user_mode_password = false,
+  Variant[Boolean,String] $enable_ctrlaltdel                 = true,
+  String $ctrlaltdel_override_path                           = 'USE_DEFAULTS',
+  String $ctrlaltdel_override_owner                          = 'root',
+  String $ctrlaltdel_override_group                          = 'root',
+  Variant[Boolean,String] $ctrlaltdel_override_mode          = '0644',
 ) {
 
   if $ensure_ttys1 {
