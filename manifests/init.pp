@@ -8,9 +8,9 @@ class inittab (
   Variant[Boolean,String] $file_mode                         = '0644',
   Variant[Boolean,String] $require_single_user_mode_password = false,
   Variant[Boolean,String] $enable_ctrlaltdel                 = true,
-  String $ctrlaltdel_override_path                           = 'USE_DEFAULTS',
-  String $ctrlaltdel_override_owner                          = 'root',
-  String $ctrlaltdel_override_group                          = 'root',
+  Variant[Boolean,String] $ctrlaltdel_override_path          = 'USE_DEFAULTS',
+  Variant[Array,String] $ctrlaltdel_override_owner           = 'root',
+  Variant[Array,String] $ctrlaltdel_override_group           = 'root',
   Variant[Boolean,String] $ctrlaltdel_override_mode          = '0644',
 ) {
 
