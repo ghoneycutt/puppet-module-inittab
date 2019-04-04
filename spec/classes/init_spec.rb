@@ -56,14 +56,14 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error(Puppet::Error,/Expected parameter 'file_mode' of 'Class[Inittab]' to have type Stdlib::Filemode, got [String|Boolean]/)
         end
       end
     end
   end
 
   describe 'with parameter require_single_user_mode_password' do
-    [true,'true',false,'false'].each do |value|
+    [true,false].each do |value|
       context "set to #{value}" do
         let(:params) { { :require_single_user_mode_password => value } }
         let(:facts) do
@@ -98,7 +98,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,/Expected parameter 'require_single_user_mode_password' of 'Class[Inittab]' to have type Boolean, got String/)
       end
     end
   end
@@ -304,7 +304,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error(Puppet::Error,/Expected parameter 'file_mode' of 'Class[Inittab]' to have type Stdlib::Filemode, got [String|Boolean]/)
         end
       end
     end
@@ -464,7 +464,7 @@ end
   }
 
   describe 'with values for parameters left at their default values' do
-    [true,'true',false,'false'].each do |enable_ctrlaltdel_value|
+    [true,false].each do |enable_ctrlaltdel_value|
       context "except for enable_ctrlaltdel which is set to #{enable_ctrlaltdel_value}" do
         platforms.sort.each do |k,v|
           inittab_fixture = File.read(fixtures("#{k}.inittab"))
@@ -688,7 +688,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,/Expected parameter 'enable_ctrlaltdel' of 'Class[Inittab]' to have type Boolean, got String/)
       end
     end
   end
