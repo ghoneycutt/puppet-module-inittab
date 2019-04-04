@@ -56,7 +56,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error(Puppet::Error,/[inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\. | Expected parameter 'file_mode' of 'Class\[Inittab\]' to have type Variant\[Stdlib::Filemode,String\] got Boolean]/)
         end
       end
     end
