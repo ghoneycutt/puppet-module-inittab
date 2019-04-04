@@ -56,7 +56,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/Expected parameter 'file_mode' of 'Class[Inittab]' to have type Stdlib::Filemode, got [String|Boolean]/)
+          }.to raise_error(Puppet::Error,/inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
         end
       end
     end
@@ -98,7 +98,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Expected parameter 'require_single_user_mode_password' of 'Class[Inittab]' to have type Boolean, got String/)
+        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
       end
     end
   end
@@ -304,7 +304,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/Expected parameter 'file_mode' of 'Class[Inittab]' to have type Stdlib::Filemode, got [String|Boolean]/)
+          }.to raise_error(Puppet::Error,/inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
         end
       end
     end
@@ -688,7 +688,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Expected parameter 'enable_ctrlaltdel' of 'Class[Inittab]' to have type Boolean, got String/)
+        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
       end
     end
   end
