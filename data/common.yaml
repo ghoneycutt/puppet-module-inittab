@@ -1,0 +1,10 @@
+---
+inittab::default_runlevel: 'USE_DEFAULTS'
+inittab::ensure_ttys1: null
+inittab::file_mode: '0644'
+inittab::require_single_user_mode_password: false
+inittab::enable_ctrlaltdel: true
+inittab::ctrlaltdel_override_path: 'USE_DEFAULTS'
+inittab::ctrlaltdel_override_owner: 'root'
+inittab::ctrlaltdel_override_group: 'root'
+inittab::ctrlaltdel_override_mode: '0644'
