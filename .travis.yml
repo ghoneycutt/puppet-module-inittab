@@ -21,19 +21,19 @@ matrix:
   fast_finish: true
   include:
   - rvm: 1.9.3
-    env: PUPPET_GEM_VERSION="~> 3"
+    env: PUPPET_GEM_VERSION="~> 3" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 1.9.3
-    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.0.0
-    env: PUPPET_GEM_VERSION="~> 3"
+    env: PUPPET_GEM_VERSION="~> 3" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.0.0
-    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 3"
+    env: PUPPET_GEM_VERSION="~> 3" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4"
+    env: PUPPET_GEM_VERSION="~> 4" $RUBYGEMS_VERSION="2.7.8"
   - rvm: 2.4.5
     env: PUPPET_GEM_VERSION="~> 5"
   - rvm: 2.5.3
