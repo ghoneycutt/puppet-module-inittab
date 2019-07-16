@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-inittab",
-  "version": "2.11.0",
+  "version": "3.0.0",
   "author": "ghoneycutt",
   "summary": "Manages inittab",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
   "project_page": "https://github.com/ghoneycutt/puppet-module-inittab",
   "issues_url": "https://github.com/ghoneycutt/puppet-module-inittab/issues",
   "requirements": [
-    {"name":"puppet","version_requirement":">= 3.0.0 < 7.0.0"}
+    {"name":"puppet","version_requirement":">= 4.0.0 < 7.0.0"}
   ],
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 4.6.0 < 6.0.0"}
