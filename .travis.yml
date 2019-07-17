@@ -20,10 +20,6 @@ script: 'SPEC_OPTS="--format documentation" bundle exec rake validate lint spec'
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4" $RUBYGEMS_VERSION="2.7.8"
-  - rvm: 2.4.1
-    env: PUPPET_GEM_VERSION="~> 4"
   - rvm: 2.4.5
     env: PUPPET_GEM_VERSION="~> 5"
   - rvm: 2.5.3
