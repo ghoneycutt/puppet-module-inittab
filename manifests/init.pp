@@ -14,33 +14,9 @@ class inittab (
   Stdlib::Filemode $ctrlaltdel_override_mode,
 ) {
 
-  if $ensure_ttys1 {
-    validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
-  }
+  $require_single_user_mode_password_bool = $require_single_user_mode_password
 
-  validate_re($file_mode, '^[0-7]{4}$',
-    "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
-
-  if is_string($require_single_user_mode_password) {
-    $require_single_user_mode_password_bool = str2bool($require_single_user_mode_password)
-  } else {
-    $require_single_user_mode_password_bool = $require_single_user_mode_password
-  }
-  validate_bool($require_single_user_mode_password_bool)
-
-  if is_string($enable_ctrlaltdel) {
-    $enable_ctrlaltdel_bool = str2bool($enable_ctrlaltdel)
-  } else {
-    $enable_ctrlaltdel_bool = $enable_ctrlaltdel
-  }
-  validate_bool($enable_ctrlaltdel_bool)
-
-  validate_string($ctrlaltdel_override_owner)
-
-  validate_string($ctrlaltdel_override_group)
-
-  validate_re($ctrlaltdel_override_mode, '^[0-7]{4}$',
-    "inittab::ctrlaltdel_override_mode is <${ctrlaltdel_override_mode}> and must be a valid four digit mode in octal notation.")
+  $enable_ctrlaltdel_bool = $enable_ctrlaltdel
 
   case $facts['osfamily'] {
     'RedHat': {
@@ -92,17 +68,15 @@ class inittab (
         }
       }
     }
+
     'Debian': {
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
       if $facts['operatingsystem'] == 'Ubuntu' {
-
         $default_default_runlevel         = 3
         $template                         = 'inittab/ubuntu.erb'
-
       } else {
-
         case $facts['operatingsystemmajrelease'] {
           '6': {
             $default_default_runlevel = 2
@@ -114,6 +88,7 @@ class inittab (
         }
       }
     }
+
     'Solaris': {
       $support_ctrlaltdel_override = false
       $systemd                     = false
@@ -132,6 +107,7 @@ class inittab (
         }
       }
     }
+
     'Suse':{
       $support_ctrlaltdel_override = false
       $systemd                     = false
@@ -159,20 +135,12 @@ class inittab (
     }
   }
 
-  if $default_runlevel == 'USE_DEFAULTS' {
-    $default_runlevel_real = $default_default_runlevel
-  } else {
-    $default_runlevel_real = $default_runlevel
-  }
+  $default_runlevel_real = $default_runlevel
 
   # convert integer to string
   if type3x($default_runlevel_real) == 'integer' {
     $default_runlevel_real_string = "${default_runlevel_real}" # lint:ignore:only_variable_string
   }
-
-  # validate default_runlevel_real
-  validate_re($default_runlevel_real_string, '^[0-6sS]$',
-    "default_runlevel <${default_runlevel_real}> does not match regex")
 
   if $enable_ctrlaltdel_bool == true {
     $ctrlaltdel_override_ensure = 'absent'
@@ -226,26 +194,18 @@ class inittab (
     }
   }
 
-  validate_bool($support_ctrlaltdel_override)
-
   if $support_ctrlaltdel_override == true {
+    $ctrlaltdel_override_path_real = $ctrlaltdel_override_path
+  }
 
-    if $ctrlaltdel_override_path == 'USE_DEFAULTS' {
-      $ctrlaltdel_override_path_real = $default_ctrlaltdel_override_path
-    } else {
-      $ctrlaltdel_override_path_real = $ctrlaltdel_override_path
-    }
-    validate_absolute_path($ctrlaltdel_override_path_real)
-
-    if $systemd == false {
-      file { 'ctrlaltdel_override':
-        ensure  => $ctrlaltdel_override_ensure,
-        path    => $ctrlaltdel_override_path_real,
-        content => template('inittab/control-alt-delete.override.erb'),
-        owner   => $ctrlaltdel_override_owner,
-        group   => $ctrlaltdel_override_group,
-        mode    => $ctrlaltdel_override_mode,
-      }
+  if $systemd == false {
+    file { 'ctrlaltdel_override':
+      ensure  => $ctrlaltdel_override_ensure,
+      path    => $ctrlaltdel_override_path_real,
+      content => template('inittab/control-alt-delete.override.erb'),
+      owner   => $ctrlaltdel_override_owner,
+      group   => $ctrlaltdel_override_group,
+      mode    => $ctrlaltdel_override_mode,
     }
   }
 }

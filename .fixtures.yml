@@ -1,6 +1,6 @@
 fixtures:
-  forge_modules:
-    repo: 'puppetlabs-stdlib'
+  repositories:
+    repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
     ref: '5.2.0'
   symlinks:
     inittab: "#{source_dir}"
