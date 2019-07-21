@@ -20,11 +20,7 @@ describe 'inittab' do
       }
     end
 
-    it 'should fail' do
-      expect {
-        should contain_class('inittab')
-      }.to raise_error(Puppet::Error,%r{default_runlevel <10> does not match regex})
-    end
+    it is_expected.to compile.and_raise_error
   end
 
   describe 'with file_mode specified' do
@@ -53,17 +49,14 @@ describe 'inittab' do
       context "as invalid mode #{mode}" do
         let(:params) { { :file_mode => mode } }
 
-        it 'should fail' do
-          expect {
-            should contain_class('inittab')
-          }.to raise_error(Puppet::Error,%r{inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\.})
+        it is_expected.to compile.and_raise_error
         end
       end
     end
   end
 
   describe 'with parameter require_single_user_mode_password' do
-    [true,'true',false,'false'].each do |value|
+    [true,false].each do |value|
       context "set to #{value}" do
         let(:params) { { :require_single_user_mode_password => value } }
         let(:facts) do
@@ -95,11 +88,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{Unknown type of boolean})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -145,11 +134,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{"invalid\/path" is not an absolute path})
-      end
+      it is_expected.to compile.and_raise_error
     end
 
     context 'as an invalid type' do
@@ -167,11 +152,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{true is not an absolute path})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -212,11 +193,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{\["invalid", "type"\] is not a string})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -257,11 +234,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{\["invalid", "type"\] is not a string})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -301,11 +274,7 @@ describe 'inittab' do
           }
         end
 
-        it 'should fail' do
-          expect {
-            should contain_class('inittab')
-          }.to raise_error(Puppet::Error,%r{inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\.})
-        end
+        it is_expected.to compile.and_raise_error
       end
     end
   end
@@ -319,11 +288,7 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{operatingsystemrelease is <0> and inittab supports RedHat versions 5, 6 and 7\.})
-      end
+      it is_expected.to compile.and_raise_error
     end
 
     context 'version of osfamily Debian' do
@@ -334,21 +299,13 @@ describe 'inittab' do
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{operatingsystemmajrelease is <23> and inittab supports Debian version 6\.})
-      end
+      it is_expected.to compile.and_raise_error
     end
 
     context 'osfamily' do
       let(:facts) { { :osfamily => 'UNSUPPORTED' } }
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris\.})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -652,11 +609,7 @@ end
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'\.})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 
@@ -685,11 +638,7 @@ end
         }
       end
 
-      it 'should fail' do
-        expect {
-          should contain_class('inittab')
-        }.to raise_error(Puppet::Error,%r{Unknown type of boolean})
-      end
+      it is_expected.to compile.and_raise_error
     end
   end
 end
