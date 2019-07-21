@@ -20,7 +20,7 @@ describe 'inittab' do
       }
     end
 
-    it is_expected.to compile.and_raise_error
+    it { is_expected.to compile.and_raise_error }
   end
 
   describe 'with file_mode specified' do
@@ -49,7 +49,7 @@ describe 'inittab' do
       context "as invalid mode #{mode}" do
         let(:params) { { :file_mode => mode } }
 
-        it is_expected.to compile.and_raise_error
+        it { is_expected.to compile.and_raise_error }
         end
       end
     end
@@ -88,7 +88,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -134,7 +134,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
 
     context 'as an invalid type' do
@@ -152,7 +152,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -193,7 +193,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -234,7 +234,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -274,7 +274,7 @@ describe 'inittab' do
           }
         end
 
-        it is_expected.to compile.and_raise_error
+        it { is_expected.to compile.and_raise_error }
       end
     end
   end
@@ -288,7 +288,7 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
 
     context 'version of osfamily Debian' do
@@ -299,13 +299,13 @@ describe 'inittab' do
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
 
     context 'osfamily' do
       let(:facts) { { :osfamily => 'UNSUPPORTED' } }
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -609,7 +609,7 @@ end
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
   end
 
@@ -638,6 +638,6 @@ end
         }
       end
 
-      it is_expected.to compile.and_raise_error
+      it { is_expected.to compile.and_raise_error }
     end
 end
