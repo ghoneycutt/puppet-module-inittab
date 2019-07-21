@@ -54,7 +54,7 @@ class inittab (
             }
           } else {
             file { '/etc/init/ttyS1.conf':
-              ensure => $ensure_ttys1
+              ensure => $ensure_ttys1,
             }
           }
         }
