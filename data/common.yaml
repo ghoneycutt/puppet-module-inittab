@@ -1,5 +1,5 @@
 ---
-inittab::default_runlevel: 3
+inittab::default_runlevel: '3'
 inittab::ensure_ttys1: null
 inittab::file_mode: '0644'
 inittab::require_single_user_mode_password: false

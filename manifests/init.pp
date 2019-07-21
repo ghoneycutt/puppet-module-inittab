@@ -3,7 +3,7 @@
 # Manage inittab
 #
 class inittab (
-  Integer $default_runlevel,
+  Enum['0', '1', '2', '3', '4', '5', '6', 's', 'S'] $default_runlevel,
   Optional[Enum['present','absent']] $ensure_ttys1,
   Stdlib::Filemode $file_mode,
   Boolean $require_single_user_mode_password,
@@ -22,19 +22,19 @@ class inittab (
     'RedHat': {
       case $facts['operatingsystemrelease'] {
         /^5/: {
-          $default_default_runlevel    = 3
+          $default_default_runlevel    = '3'
           $template                    = 'inittab/el5.erb'
           $support_ctrlaltdel_override = false
           $systemd                     = false
         }
         /^6/: {
-          $default_default_runlevel         = 3
+          $default_default_runlevel         = '3'
           $template                         = 'inittab/el6.erb'
           $support_ctrlaltdel_override      = true
           $default_ctrlaltdel_override_path = '/etc/init/control-alt-delete.override'
           $systemd                          = false
 
-          if $ensure_ttys1 {
+          if $ensure_ttys1 == 'present' {
             file { 'ttys1_conf':
               ensure => $ensure_ttys1,
               path   => '/etc/init/ttyS1.conf',
@@ -43,9 +43,6 @@ class inittab (
               group  => 'root',
               mode   => '0644',
             }
-          }
-
-          if $ensure_ttys1 == 'present' {
             service { 'ttyS1':
               ensure     => running,
               hasstatus  => false,
@@ -55,10 +52,14 @@ class inittab (
               status     => '/sbin/initctl status ttyS1 | grep ^"ttyS1 start/running" 1>/dev/null 2>&1',
               require    => File['ttys1_conf'],
             }
+          } else {
+            file { '/etc/init/ttyS1.conf':
+              ensure => $ensure_ttys1
+            }
           }
         }
         /^7/: {
-          $default_default_runlevel    = 3
+          $default_default_runlevel    = '3'
           $template                    = 'inittab/el7.erb'
           $support_ctrlaltdel_override = false
           $systemd                     = true
@@ -74,12 +75,20 @@ class inittab (
       $systemd                     = false
 
       if $facts['operatingsystem'] == 'Ubuntu' {
-        $default_default_runlevel         = 3
+        $default_default_runlevel         = '3'
         $template                         = 'inittab/ubuntu.erb'
+      file { 'rc-sysinit.override':
+        ensure  => file,
+        path    => '/etc/init/rc-sysinit.override',
+        content => template($template),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+      }
       } else {
         case $facts['operatingsystemmajrelease'] {
           '6': {
-            $default_default_runlevel = 2
+            $default_default_runlevel = '2'
             $template                 = 'inittab/debian6.erb'
           }
           default: {
@@ -95,11 +104,11 @@ class inittab (
 
       case $facts['kernelrelease'] {
         '5.10': {
-          $default_default_runlevel = 3
+          $default_default_runlevel = '3'
           $template                 = 'inittab/sol10.erb'
         }
         '5.11': {
-          $default_default_runlevel = 3
+          $default_default_runlevel = '3'
           $template                 = 'inittab/sol11.erb'
         }
         default: {
@@ -114,15 +123,15 @@ class inittab (
 
       case $facts['operatingsystemrelease'] {
         /^10/: {
-          $default_default_runlevel = 3
+          $default_default_runlevel = '3'
           $template                 = 'inittab/suse10.erb'
         }
         /^11/: {
-          $default_default_runlevel = 3
+          $default_default_runlevel = '3'
           $template                 = 'inittab/suse11.erb'
         }
         /^12/: {
-          $default_default_runlevel = 3
+          $default_default_runlevel = '3'
           $template                 = 'inittab/suse12.erb'
         }
         default: {
@@ -150,16 +159,7 @@ class inittab (
     $ctrlaltdel_target = '/dev/null'
   }
 
-  if $facts['operatingsystem'] == 'Ubuntu' {
-    file { 'rc-sysinit.override':
-      ensure  => file,
-      path    => '/etc/init/rc-sysinit.override',
-      content => template($template),
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-    }
-  } else {
+  unless $facts['operatingsystem'] == 'Ubuntu' {
     file { 'inittab':
       ensure  => file,
       path    => '/etc/inittab',
@@ -172,10 +172,10 @@ class inittab (
 
   if $systemd == true {
     case $default_runlevel_real {
-      3: {
+      '3': {
         $target = '/lib/systemd/system/multi-user.target'
       }
-      5: {
+      '5': {
         $target = '/lib/systemd/system/graphical.target'
       }
       default: {
