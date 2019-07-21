@@ -23,7 +23,7 @@ describe 'inittab' do
     it 'should fail' do
       expect {
         should contain_class('inittab')
-      }.to raise_error(Puppet::Error,/default_runlevel <10> does not match regex/)
+      }.to raise_error(Puppet::Error,%r{default_runlevel <10> does not match regex})
     end
   end
 
@@ -56,7 +56,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error(Puppet::Error,%r{inittab::file_mode is <#{mode}> and must be a valid four digit mode in octal notation\.})
         end
       end
     end
@@ -76,11 +76,11 @@ describe 'inittab' do
         end
 
         if value.to_s == 'true'
-          it { should contain_file('inittab').with_content(/^\s*~~:S:wait:\/sbin\/sulogin$/) }
+          it { should contain_file('inittab').with_content(%r{^\s*~~:S:wait:\/sbin\/sulogin$}) }
         end
 
         if value.to_s == 'false'
-          it { should contain_file('inittab').without_content(/^\s*~~:S:wait:\/sbin\/sulogin$/) }
+          it { should contain_file('inittab').without_content(%r{^\s*~~:S:wait:\/sbin\/sulogin$}) }
         end
       end
     end
@@ -98,7 +98,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,%r{Unknown type of boolean})
       end
     end
   end
@@ -148,7 +148,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
+        }.to raise_error(Puppet::Error,%r{"invalid\/path" is not an absolute path})
       end
     end
 
@@ -170,7 +170,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/true is not an absolute path/)
+        }.to raise_error(Puppet::Error,%r{true is not an absolute path})
       end
     end
   end
@@ -215,7 +215,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a string/)
+        }.to raise_error(Puppet::Error,%r{\["invalid", "type"\] is not a string})
       end
     end
   end
@@ -260,7 +260,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a string/)
+        }.to raise_error(Puppet::Error,%r{\["invalid", "type"\] is not a string})
       end
     end
   end
@@ -304,7 +304,7 @@ describe 'inittab' do
         it 'should fail' do
           expect {
             should contain_class('inittab')
-          }.to raise_error(Puppet::Error,/inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\./)
+          }.to raise_error(Puppet::Error,%r{inittab::ctrlaltdel_override_mode is <#{mode}> and must be a valid four digit mode in octal notation\.})
         end
       end
     end
@@ -322,7 +322,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/operatingsystemrelease is <0> and inittab supports RedHat versions 5, 6 and 7\./)
+        }.to raise_error(Puppet::Error,%r{operatingsystemrelease is <0> and inittab supports RedHat versions 5, 6 and 7\.})
       end
     end
 
@@ -337,7 +337,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/operatingsystemmajrelease is <23> and inittab supports Debian version 6\./)
+        }.to raise_error(Puppet::Error,%r{operatingsystemmajrelease is <23> and inittab supports Debian version 6\.})
       end
     end
 
@@ -347,7 +347,7 @@ describe 'inittab' do
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris\./)
+        }.to raise_error(Puppet::Error,%r{osfamily is <UNSUPPORTED> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris\.})
       end
     end
   end
@@ -521,7 +521,7 @@ end
                 })
               }
 
-              it { should contain_file('inittab').without_content(/^\s*ca/) }
+              it { should contain_file('inittab').without_content(%r{^\s*ca}) }
             end
 
             if v[:support_ctrlaltdel_override].to_s == 'false' and enable_ctrlaltdel_value.to_s == 'true' and v[:osfamily] != 'Solaris'
@@ -535,7 +535,7 @@ end
 
               it { should_not contain_file('ctrlaltdel_override') }
 
-              it { should contain_file('inittab').without_content(/^\s*ca/) }
+              it { should contain_file('inittab').without_content(%r{^\s*ca}) }
             end
 
             if v[:systemd] == true
@@ -655,7 +655,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'\./)
+        }.to raise_error(Puppet::Error,%r{inittab::ensure_ttys1 is invalid and if defined must be \'present\' or \'absent\'\.})
       end
     end
   end
@@ -688,7 +688,7 @@ end
       it 'should fail' do
         expect {
           should contain_class('inittab')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        }.to raise_error(Puppet::Error,%r{Unknown type of boolean})
       end
     end
   end
