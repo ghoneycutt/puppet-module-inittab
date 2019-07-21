@@ -24,6 +24,9 @@ doc/
 # Eclipse
 .project
 
+# VSCode
+.vscode
+
 # OS X
 .DS_Store
 
