@@ -23,6 +23,7 @@ gem 'puppet-lint-variable_contains_upcase'
 
 gem 'rspec',              '~> 2.0'   if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'rake',               '~> 10.0'  if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
+gem 'rake',               '<= 12.3'  if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.0'
 gem 'json',               '<= 1.8'   if RUBY_VERSION < '2.0.0'
 gem 'json_pure',          '<= 2.0.1' if RUBY_VERSION < '2.0.0'
 gem 'metadata-json-lint', '0.0.11'   if RUBY_VERSION <= '1.9.3'
