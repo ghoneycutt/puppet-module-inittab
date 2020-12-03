@@ -47,7 +47,7 @@ String of file mode in four digit octal notation for inittab.
 
 require_single_user_mode_password
 ---------------------------------
-Boolean to require a password when selecting Single User Mode. EL 5 only.
+Boolean to require a password when selecting Single User Mode. EL 5/6 only.
 
 - *Default*: false
 
