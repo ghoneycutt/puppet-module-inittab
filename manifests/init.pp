@@ -14,13 +14,13 @@ class inittab (
   $ctrlaltdel_override_mode           = '0644',
   $ctrlaltdelburstaction              = undef,
 ) {
-
   if $ensure_ttys1 {
-    validate_re($ensure_ttys1,'^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
+    validate_re($ensure_ttys1,
+    '^(present)|(absent)$',"inittab::ensure_ttys1 is ${ensure_ttys1} and if defined must be \'present\' or \'absent\'.")
   }
 
   validate_re($file_mode, '^[0-7]{4}$',
-    "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
+  "inittab::file_mode is <${file_mode}> and must be a valid four digit mode in octal notation.")
 
   if is_string($require_single_user_mode_password) {
     $require_single_user_mode_password_bool = str2bool($require_single_user_mode_password)
@@ -41,18 +41,18 @@ class inittab (
   validate_string($ctrlaltdel_override_group)
 
   validate_re($ctrlaltdel_override_mode, '^[0-7]{4}$',
-    "inittab::ctrlaltdel_override_mode is <${ctrlaltdel_override_mode}> and must be a valid four digit mode in octal notation.")
+  "inittab::ctrlaltdel_override_mode is <${ctrlaltdel_override_mode}> and must be a valid four digit mode in octal notation.")
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
-      case $::operatingsystemrelease {
-        /^5/: {
+      case $facts['os']['release']['major'] {
+        '5': {
           $default_default_runlevel    = 3
           $template                    = 'inittab/el5.erb'
           $support_ctrlaltdel_override = false
           $systemd                     = false
         }
-        /^6/: {
+        '6': {
           $default_default_runlevel         = 3
           $template                         = 'inittab/el6.erb'
           $support_ctrlaltdel_override      = true
@@ -82,14 +82,20 @@ class inittab (
             }
           }
         }
-        /^7/: {
+        '7': {
           $default_default_runlevel    = 3
           $template                    = 'inittab/el7.erb'
           $support_ctrlaltdel_override = false
           $systemd                     = true
         }
+        '8': {
+          $default_default_runlevel    = 3
+          $template                    = 'inittab/el8.erb'
+          $support_ctrlaltdel_override = false
+          $systemd                     = true
+        }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports RedHat versions 5, 6 and 7.")
+          fail("OS Release is <${facts['os']['release']['major']}> and inittab supports RedHat Enterprise versions 5 through 9.")
         }
       }
     }
@@ -97,20 +103,17 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      if $::operatingsystem == 'Ubuntu' {
-
+      if $facts['os']['name'] == 'Ubuntu' {
         $default_default_runlevel         = 3
         $template                         = 'inittab/ubuntu.erb'
-
       } else {
-
-        case $::operatingsystemmajrelease {
+        case $facts['os']['release']['major'] {
           '6': {
             $default_default_runlevel = 2
             $template                 = 'inittab/debian6.erb'
           }
           default: {
-            fail("operatingsystemmajrelease is <${::operatingsystemmajrelease}> and inittab supports Debian version 6.")
+            fail("operatingsystemmajrelease is <${facts['os']['release']['major']}> and inittab supports Debian version 6.")
           }
         }
       }
@@ -137,26 +140,26 @@ class inittab (
       $support_ctrlaltdel_override = false
       $systemd                     = false
 
-      case $::operatingsystemrelease {
-        /^10/: {
+      case $facts['os']['release']['major'] {
+        '10': {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse10.erb'
         }
-        /^11/: {
+        '11': {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse11.erb'
         }
-        /^12/: {
+        '12': {
           $default_default_runlevel = 3
           $template                 = 'inittab/suse12.erb'
         }
         default: {
-          fail("operatingsystemrelease is <${::operatingsystemrelease}> and inittab supports Suse versions 10 and 11.")
+          fail("OS release is <${facts['os']['release']['major']}> and inittab supports Suse versions 10, 11, and 12.")
         }
       }
     }
     default: {
-      fail("osfamily is <${::osfamily}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
+      fail("OS Family is <${facts['os']['family']}> and inittab module supports Debian, RedHat, Ubuntu, Suse and Solaris.")
     }
   }
 
@@ -173,7 +176,7 @@ class inittab (
 
   # validate default_runlevel_real
   validate_re($default_runlevel_real_string, '^[0-6sS]$',
-    "default_runlevel <${default_runlevel_real}> does not match regex")
+  "default_runlevel <${default_runlevel_real}> does not match regex")
 
   if $enable_ctrlaltdel_bool == true {
     $ctrlaltdel_override_ensure = 'absent'
@@ -183,7 +186,7 @@ class inittab (
     $ctrlaltdel_target = '/dev/null'
   }
 
-  if $::operatingsystem == 'Ubuntu' {
+  if $facts['os']['name'] == 'Ubuntu' {
     file { 'rc-sysinit.override':
       ensure  => file,
       path    => '/etc/init/rc-sysinit.override',
@@ -228,7 +231,7 @@ class inittab (
 
     if $ctrlaltdelburstaction {
       validate_re($ctrlaltdelburstaction,'^(reboot-force)|(poweroff-force)|(reboot-immediate)|(poweroff-immediate)|(none)$',
-        "inittab::ctrlaltdelburstaction is ${ctrlaltdelburstaction} and if defined must be \'reboot-force\' or \'poweroff-force\' or \'reboot-immediate\' or \'poweroff-immediate\' or \'none\'.")
+      "inittab::ctrlaltdelburstaction is ${ctrlaltdelburstaction} and if defined must be one of 'reboot-force', 'poweroff-force', 'reboot-immediate', 'poweroff-immediate', 'none'.")
 
       file_line { 'CtrlAltDelBurstAction':
         ensure => present,
@@ -237,13 +240,11 @@ class inittab (
         match  => '^CtrlAltDelBurstAction=',
       }
     }
-
   }
 
   validate_bool($support_ctrlaltdel_override)
 
   if $support_ctrlaltdel_override == true {
-
     if $ctrlaltdel_override_path == 'USE_DEFAULTS' {
       $ctrlaltdel_override_path_real = $default_ctrlaltdel_override_path
     } else {

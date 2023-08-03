@@ -422,6 +422,14 @@ end
         :support_ctrlaltdel_override => 'false',
         :systemd                     => true,
       },
+    'el8' =>
+      { :osfamily                    => 'RedHat',
+        :release                     => '8',
+        :operatingsystem             => 'RedHat',
+        :operatingsystemrelease      => '8.0',
+        :support_ctrlaltdel_override => 'false',
+        :systemd                     => true,
+      },
     'solaris10' =>
       { :osfamily                    => 'Solaris',
         :release                     => '10',
