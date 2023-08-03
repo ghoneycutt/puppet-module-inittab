@@ -208,10 +208,10 @@ class inittab (
 
   if $systemd == true {
     case $default_runlevel_real {
-      3: {
+      '3': {
         $target = '/lib/systemd/system/multi-user.target'
       }
-      5: {
+      '5': {
         $target = '/lib/systemd/system/graphical.target'
       }
       default: {
@@ -231,7 +231,7 @@ class inittab (
 
     if $ctrlaltdelburstaction {
       validate_re($ctrlaltdelburstaction,'^(reboot-force)|(poweroff-force)|(reboot-immediate)|(poweroff-immediate)|(none)$',
-      "inittab::ctrlaltdelburstaction is ${ctrlaltdelburstaction} and if defined must be one of 'reboot-force', 'poweroff-force', 'reboot-immediate', 'poweroff-immediate', 'none'.")
+      "inittab::ctrlaltdelburstaction is ${ctrlaltdelburstaction} and must be one of 'reboot-force', 'poweroff-force', 'reboot-immediate', 'poweroff-immediate', 'none'.")
 
       file_line { 'CtrlAltDelBurstAction':
         ensure => present,
