@@ -95,7 +95,7 @@ class inittab (
           $systemd                     = true
         }
         default: {
-          fail("OS Release is <${facts['os']['release']['major']}> and inittab supports RedHat Enterprise versions 5 through 9.")
+          fail("OS Release is <${facts['os']['release']['major']}> and inittab supports RedHat Enterprise versions 5 through 8.")
         }
       }
     }
